@@ -3,208 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ministração Ramo Juatuba</title>
+    <title>Ministração Juatuba</title>
     <style>
         :root {
             --primary: #1a2e44;
             --secondary: #b8860b;
-            --accent: #25D366;
-            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --white: #ffffff;
+            --accent: #2ecc71;
+            --danger: #e74c3c;
+            --bg: #f8f9fb;
+            --card-bg: #ffffff;
+            --text-main: #2c3e50;
         }
 
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg-gradient); background-attachment: fixed; margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
-        .header { text-align: center; margin: 15px 0 25px 0; width: 100%; max-width: 500px; }
-        .header h1 { color: var(--primary); font-size: 1.1em; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
-        .header p { color: var(--secondary); font-weight: 600; margin: 4px 0; font-size: 0.85em; }
+        body { 
+            font-family: 'Inter', -apple-system, sans-serif; 
+            background: var(--bg); color: var(--text-main);
+            margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center;
+        }
 
-        .card { background: var(--white); padding: 20px; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); width: 100%; max-width: 500px; margin-bottom: 20px; box-sizing: border-box; }
-        h3 { color: var(--primary); font-size: 1em; margin-top: 0; display: flex; align-items: center; gap: 8px; }
+        .container { width: 100%; max-width: 480px; }
 
-        select, input, textarea { width: 100%; padding: 14px; margin-bottom: 12px; border: 1.5px solid #e1e8ed; border-radius: 12px; box-sizing: border-box; font-size: 16px; background: white; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { font-size: 1.2rem; color: var(--primary); margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+        .header p { font-size: 0.9rem; color: var(--secondary); margin: 5px 0; font-weight: 600; }
 
-        .membro-selecionado-box { background: #f8fafc; border: 2px solid var(--primary); border-radius: 15px; padding: 15px; margin-top: 10px; display: none; animation: fadeIn 0.3s ease; }
-        .nome-grande { font-weight: bold; font-size: 1.2em; color: var(--primary); display: block; }
-        .nota-click { color: var(--secondary); font-size: 0.9em; cursor: pointer; text-decoration: underline; margin: 8px 0; display: block; }
+        .card { 
+            background: var(--card-bg); border-radius: 24px; padding: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.04); margin-bottom: 20px;
+        }
 
-        .btn-group-horizontal { display: flex; gap: 10px; margin-top: 15px; }
-        .btn { border: none; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-p { background: var(--accent); color: white; flex: 1; padding: 15px; }
-        .btn-f { background: white; color: #e74c3c; border: 2px solid #e74c3c; flex: 1; padding: 15px; }
-        .btn-sync { background: var(--primary); color: white; width: 100%; padding: 12px; margin-top: 5px; }
+        label { display: block; font-size: 0.75rem; font-weight: 700; color: #95a5a6; margin-bottom: 8px; text-transform: uppercase; }
 
-        #status-sync { font-size: 0.75em; text-align: center; color: #666; margin-top: 5px; }
+        select { 
+            width: 100%; padding: 15px; border-radius: 16px; border: 2px solid #edf2f7;
+            font-size: 1rem; color: var(--text-main); appearance: none;
+            background: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23cbd5e0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 15px center;
+        }
 
-        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 46, 68, 0.9); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
-        .modal-content { background: white; padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; }
-        .sugestao-card { background: #f8fafc; padding: 15px; border-radius: 12px; margin-top: 10px; cursor: pointer; border: 1px solid #e2e8f0; }
+        .membro-destaque { 
+            display: none; text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #f1f4f8;
+            animation: slideUp 0.4s ease;
+        }
+
+        .nome-foco { font-size: 1.5rem; font-weight: 800; color: var(--primary); margin-bottom: 5px; display: block; }
+        
+        .btn-nota { 
+            display: inline-block; padding: 8px 16px; background: #f1f4f8; border-radius: 20px;
+            color: var(--secondary); font-size: 0.85rem; font-weight: 600; cursor: pointer; margin-bottom: 20px;
+        }
+
+        .grid-acoes { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .btn-acao { 
+            border: none; border-radius: 18px; padding: 18px; font-weight: 700; font-size: 0.9rem;
+            cursor: pointer; transition: transform 0.2s; display: flex; flex-direction: column; align-items: center; gap: 8px;
+        }
+        .btn-acao:active { transform: scale(0.95); }
+
+        .btn-presenca { background: #e8f8f0; color: var(--accent); }
+        .btn-falta { background: #fef1f0; color: var(--danger); }
+
+        .icon { font-size: 1.4rem; }
+
+        /* Estilo das Configurações */
+        details { width: 100%; margin-top: 20px; }
+        summary { text-align: center; list-style: none; font-size: 0.85rem; color: #94a3b8; cursor: pointer; font-weight: 600; }
+        
+        .config-box { background: #fff; padding: 20px; border-radius: 20px; margin-top: 15px; border: 1px solid #edf2f7; }
+        textarea { width: 100%; border-radius: 12px; border: 1px solid #edf2f7; padding: 12px; margin-bottom: 10px; font-family: inherit; font-size: 0.9rem; }
+
+        #modal { 
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); 
+            backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: flex-end;
+        }
+        .modal-body { 
+            background: white; width: 100%; max-width: 480px; border-radius: 30px 30px 0 0; 
+            padding: 30px; animation: slideUp 0.3s ease;
+        }
+
+        .opcao-msg { 
+            background: #f8f9fb; padding: 20px; border-radius: 18px; margin-bottom: 12px;
+            border: 2px solid transparent; cursor: pointer; font-size: 0.95rem; line-height: 1.5;
+        }
+        .opcao-msg:hover { border-color: var(--secondary); }
+
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>A Igreja de Jesus Cristo dos Santos dos Últimos Dias</h1>
-        <p>Ramo Juatuba</p>
-    </div>
+    <div class="container">
+        <div class="header">
+            <h1>A Igreja de Jesus Cristo</h1>
+            <p>Ramo Juatuba</p>
+        </div>
 
-    <div class="card">
-        <h3><span>👤</span> Ministrar Membro</h3>
-        <select id="selectMembro" onchange="mostrarMembro()">
-            <option value="">-- Selecione o nome --</option>
-        </select>
+        <div class="card">
+            <label>Selecione para Ministrar</label>
+            <select id="selectMembro" onchange="mostrarMembro()">
+                <option value="">Escolher da lista...</option>
+            </select>
 
-        <div id="displayMembro" class="membro-selecionado-box">
-            <span class="nome-grande" id="dispNome">Nome</span>
-            <span class="nota-click" id="dispNota" onclick="editarNotaAtual()">+ Adicionar pedido de oração</span>
-            <div class="btn-group-horizontal">
-                <button class="btn btn-p" onclick="abrirSugestoes('presenca')">PRESENÇA</button>
-                <button class="btn btn-f" onclick="abrirSugestoes('falta')">FALTA</button>
+            <div id="membroFoco" class="membro-destaque">
+                <span class="nome-foco" id="dispNome">Nome</span>
+                <div class="btn-nota" id="dispNota" onclick="editarNota()">+ Adicionar Nota de Cuidado</div>
+
+                <div class="grid-acoes">
+                    <button class="btn-acao btn-presenca" onclick="abrirOpcoes('presenca')">
+                        <span class="icon">✅</span> PRESENÇA
+                    </button>
+                    <button class="btn-acao btn-falta" onclick="abrirOpcoes('falta')">
+                        <span class="icon">❤️</span> FALTA
+                    </button>
+                </div>
             </div>
         </div>
-        <div id="status-sync">Sincronizando...</div>
-    </div>
 
-    <div class="card">
+        <div id="status-txt" style="text-align:center; font-size:0.7rem; color:#cbd5e0; margin-bottom: 10px;">Sincronizando...</div>
+
         <details>
-            <summary style="cursor:pointer; color:var(--primary); font-weight:bold; font-size: 0.9em;">⚙️ Configurações do Sistema</summary>
-            <div style="margin-top:15px;">
-                <label style="font-size:0.8em;">Link da Planilha (CSV):</label>
-                <input type="text" id="csvUrl" placeholder="Cole o link apenas uma vez">
-                <button class="btn btn-sync" onclick="configurarLink()">💾 Guardar Link e Atualizar</button>
+            <summary>⚙️ Painel de Configurações</summary>
+            <div class="config-box">
+                <label>Link da Planilha Google</label>
+                <input type="text" id="csvUrl" style="width:100%; padding:12px; border-radius:10px; border:1px solid #eee; margin-bottom:15px;">
+                <button onclick="salvarLink()" style="width:100%; padding:12px; background:var(--primary); color:white; border:none; border-radius:10px; font-weight:bold;">Sincronizar Agora</button>
                 
-                <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
-                <label style="font-size:0.8em;">Editar Mensagens:</label>
-                <textarea id="editPresenca"></textarea>
-                <textarea id="editFalta"></textarea>
-                <button class="btn" style="background:var(--secondary); color:white; width:100%" onclick="salvarBiblioteca()">Guardar Textos</button>
+                <label style="margin-top:20px;">Personalizar Mensagens</label>
+                <textarea id="p1" placeholder="Presença 1"></textarea>
+                <textarea id="p2" placeholder="Presença 2"></textarea>
+                <textarea id="f1" placeholder="Falta 1"></textarea>
+                <textarea id="f2" placeholder="Falta 2"></textarea>
+                <button onclick="salvarBib()" style="width:100%; padding:12px; background:var(--secondary); color:white; border:none; border-radius:10px; font-weight:bold;">Guardar Textos</button>
             </div>
         </details>
     </div>
 
     <div id="modal">
-        <div class="modal-content">
-            <h3 id="modalTitulo">Enviar Mensagem</h3>
-            <div id="opcoesMensagens"></div>
-            <button class="btn" style="background:#eee; margin-top:15px; width:100%" onclick="fecharModal()">Voltar</button>
+        <div class="modal-body">
+            <h3 style="margin-top:0; color:var(--primary)">Escolha a Mensagem</h3>
+            <div id="listaMsgs"></div>
+            <button onclick="fecharModal()" style="width:100%; padding:15px; border:none; background:none; color:#95a5a6; font-weight:bold;">CANCELAR</button>
         </div>
     </div>
 
 <script>
     let membros = JSON.parse(localStorage.getItem('membrosJuatuba')) || [];
-    let linkPlanilha = localStorage.getItem('linkPlanilhaJuatuba') || "";
+    let linkUrl = localStorage.getItem('linkPlanilhaJuatuba') || "";
     let bibPadrao = {
-        presenca: "Olá, {nome}! ✨\n\nFicamos muito felizes com a tua presença hoje no Ramo Juatuba. 🌱{nota}",
-        falta: "Olá, {nome}... ❤️\n\nSentimos a tua falta hoje no Ramo Juatuba. Esperamos ver-te em breve!{nota}"
+        p1: "Olá, {nome}! ✨ Que alegria te ver hoje no Ramo Juatuba. 🌱{nota}",
+        p2: "Oi, {nome}! 🙌 Tua presença foi especial hoje. ❤️{nota}",
+        f1: "Olá, {nome}... ❤️ Sentimos tua falta hoje no Ramo. Esperamos ver-te em breve!{nota}",
+        f2: "Oi, {nome}! 🌱 Passando para dizer que nos lembramos de ti hoje. 🙏{nota}"
     };
     let biblioteca = JSON.parse(localStorage.getItem('bibJuatuba')) || bibPadrao;
-    let indiceAtual = -1;
+    let indice = -1;
 
-    // Inicialização
-    document.getElementById('csvUrl').value = linkPlanilha;
-    document.getElementById('editPresenca').value = biblioteca.presenca;
-    document.getElementById('editFalta').value = biblioteca.falta;
-    
-    // Tenta sincronizar automaticamente ao abrir
-    if(linkPlanilha) {
-        importarDados(linkPlanilha, true);
-    } else {
-        document.getElementById('status-sync').textContent = "⚠️ Configure o link da planilha abaixo.";
-        renderizarSelect();
-    }
+    // Iniciar dados nos inputs
+    document.getElementById('csvUrl').value = linkUrl;
+    ['p1','p2','f1','f2'].forEach(k => document.getElementById(k).value = biblioteca[k]);
 
-    function configurarLink() {
-        const url = document.getElementById('csvUrl').value;
-        if(!url) return alert("Por favor, cole o link!");
-        localStorage.setItem('linkPlanilhaJuatuba', url);
-        importarDados(url, false);
-    }
+    if(linkUrl) autoSync(); else renderSelect();
 
-    async function importarDados(url, isAuto) {
-        const status = document.getElementById('status-sync');
-        status.textContent = "⏳ Sincronizando com Google Sheets...";
+    async function autoSync() {
         try {
-            const resp = await fetch(url);
-            const data = await resp.text();
-            const linhas = data.split('\n').slice(1);
-            
-            // Mapear dados e preservar notas antigas
-            const novasNotas = {}; membros.forEach(m => novasNotas[m.nome] = m.nota);
-            
+            const r = await fetch(linkUrl);
+            const d = await r.text();
+            const linhas = d.split('\n').slice(1);
+            const notas = {}; membros.forEach(m => notas[m.nome] = m.nota);
             membros = linhas.map(l => {
-                const col = l.split(',');
-                const nome = col[0]?.trim().replace(/"/g, '');
-                return { 
-                    nome: nome, 
-                    tel: col[1]?.trim().replace(/"/g, ''), 
-                    nota: novasNotas[nome] || "" 
-                };
+                const c = l.split(',');
+                const n = c[0]?.trim().replace(/"/g, '');
+                return { nome: n, tel: c[1]?.trim().replace(/"/g, ''), nota: notas[n] || "" };
             }).filter(m => m.nome && m.tel);
-
             localStorage.setItem('membrosJuatuba', JSON.stringify(membros));
-            renderizarSelect();
-            status.textContent = "✅ Lista atualizada: " + new Date().toLocaleTimeString();
-        } catch (e) {
-            status.textContent = "❌ Erro ao sincronizar. Verifique o link.";
-            if(isAuto) renderizarSelect();
-        }
+            document.getElementById('status-txt').textContent = "Atualizado em " + new Date().toLocaleTimeString();
+            renderSelect();
+        } catch(e) { document.getElementById('status-txt').textContent = "Erro na sincronização."; renderSelect(); }
     }
 
-    function renderizarSelect() {
-        const select = document.getElementById('selectMembro');
-        const selAnterior = select.value;
-        select.innerHTML = '<option value="">-- Selecione o nome --</option>';
+    function renderSelect() {
+        const s = document.getElementById('selectMembro');
+        s.innerHTML = '<option value="">Escolher da lista...</option>';
         membros.sort((a,b) => a.nome.localeCompare(b.nome)).forEach((m, i) => {
-            let opt = document.createElement('option');
-            opt.value = i;
-            opt.textContent = m.nome;
-            select.appendChild(opt);
+            s.innerHTML += `<option value="${i}">${m.nome}</option>`;
         });
     }
 
     function mostrarMembro() {
-        const val = document.getElementById('selectMembro').value;
-        const box = document.getElementById('displayMembro');
-        if(val === "") { box.style.display = "none"; return; }
-        indiceAtual = val;
-        const m = membros[indiceAtual];
-        document.getElementById('dispNome').textContent = m.nome;
-        document.getElementById('dispNota').textContent = m.nota ? "📝 " + m.nota : "+ Adicionar pedido de oração";
+        indice = document.getElementById('selectMembro').value;
+        const box = document.getElementById('membroFoco');
+        if(indice === "") { box.style.display = "none"; return; }
+        document.getElementById('dispNome').textContent = membros[indice].nome;
+        document.getElementById('dispNota').textContent = membros[indice].nota || "+ Adicionar Nota de Cuidado";
         box.style.display = "block";
     }
 
-    function editarNotaAtual() {
-        const n = prompt("Motivo de oração/nota para " + membros[indiceAtual].nome, membros[indiceAtual].nota);
-        if(n !== null) {
-            membros[indiceAtual].nota = n;
-            localStorage.setItem('membrosJuatuba', JSON.stringify(membros));
-            mostrarMembro();
+    function editarNota() {
+        const n = prompt("Nota de cuidado para " + membros[indice].nome, membros[indice].nota);
+        if(n !== null) { 
+            membros[indice].nota = n; 
+            localStorage.setItem('membrosJuatuba', JSON.stringify(membros)); 
+            mostrarMembro(); 
         }
     }
 
-    function abrirSugestoes(tipo) {
-        const m = membros[indiceAtual];
-        const container = document.getElementById('opcoesMensagens');
-        container.innerHTML = "";
-        let notaTexto = m.nota ? `\n\nEstou em oração por: ${m.nota}. 🙏` : "";
-        let final = biblioteca[tipo].replace("{nome}", m.nome).replace("{nota}", notaTexto);
-        let card = document.createElement('div');
-        card.className = 'sugestao-card';
-        card.innerHTML = final.replace(/\n/g, '<br>');
-        card.onclick = () => {
-            window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent(final)}`, '_blank');
-            fecharModal();
-        };
-        container.appendChild(card);
+    function abrirOpcoes(tipo) {
+        const l = document.getElementById('listaMsgs');
+        l.innerHTML = "";
+        const m = membros[indice];
+        const nTxt = m.nota ? `\n\nEstou em oração por: ${m.nota}. 🙏` : "";
+        const msgs = tipo === 'presenca' ? [biblioteca.p1, biblioteca.p2] : [biblioteca.f1, biblioteca.f2];
+        
+        msgs.forEach(t => {
+            const final = t.replace("{nome}", m.nome).replace("{nota}", nTxt);
+            const d = document.createElement('div');
+            d.className = 'opcao-msg';
+            d.innerHTML = final.replace(/\n/g, '<br>');
+            d.onclick = () => { window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent(final)}`); fecharModal(); };
+            l.appendChild(d);
+        });
         document.getElementById('modal').style.display = 'flex';
     }
 
-    function salvarBiblioteca() {
-        biblioteca.presenca = document.getElementById('editPresenca').value;
-        biblioteca.falta = document.getElementById('editFalta').value;
-        localStorage.setItem('bibJuatuba', JSON.stringify(biblioteca));
-        alert("Textos guardados!");
+    function salvarLink() { localStorage.setItem('linkPlanilhaJuatuba', document.getElementById('csvUrl').value); location.reload(); }
+    function salvarBib() { 
+        ['p1','p2','f1','f2'].forEach(k => biblioteca[k] = document.getElementById(k).value);
+        localStorage.setItem('bibJuatuba', JSON.stringify(biblioteca)); alert("Salvo!");
     }
-
     function fecharModal() { document.getElementById('modal').style.display = 'none'; }
 </script>
 </body>
