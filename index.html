@@ -3,105 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ministração Juatuba V29</title>
+    <title>Ministração Juatuba V30</title>
     <style>
-        :root { --primary: #1a2e44; --secondary: #b8860b; --accent: #2ecc71; --info: #3498db; --danger: #e74c3c; --bg: #f4f7f9; }
+        :root { --primary: #1a2e44; --secondary: #b8860b; --accent: #2ecc71; --info: #3498db; --bg: #f4f7f9; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
         .container { width: 100%; max-width: 480px; }
         .card { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.05); margin-bottom: 15px; }
         
-        .progress-label { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
-        .progress-container { width: 100%; background: #edf2f7; border-radius: 10px; height: 12px; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--accent); width: 0%; transition: 0.8s; }
+        /* Área de Configuração em destaque para novos celulares */
+        .config-box { background: #ebf8ff; border: 2px dashed #3498db; border-radius: 15px; padding: 15px; margin-bottom: 20px; text-align: center; }
+        .config-box input { width: 90%; padding: 12px; border-radius: 10px; border: 1px solid #cbd5e0; margin-bottom: 10px; }
+        .config-box button { background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; }
 
+        .progress-container { width: 100%; background: #edf2f7; border-radius: 10px; height: 12px; overflow: hidden; margin: 10px 0; }
+        .progress-bar { height: 100%; background: var(--accent); width: 0%; transition: 0.8s; }
+        
         label { display: block; font-size: 0.7rem; font-weight: bold; color: #a0aec0; margin: 15px 0 5px 0; text-transform: uppercase; }
-        select { width: 100%; padding: 16px; border-radius: 14px; border: 2px solid #edf2f7; font-size: 1rem; color: var(--primary); background: #fff; cursor: pointer; }
+        select { width: 100%; padding: 16px; border-radius: 14px; border: 2px solid #edf2f7; font-size: 1rem; color: var(--primary); background: #fff; }
 
         .membro-foco { display: none; text-align: center; border-top: 2px solid #f7fafc; padding-top: 20px; margin-top: 20px; animation: slideUp 0.3s ease; }
-        .nota-fe { background: #fff9db; border: 1px solid #fcc419; padding: 12px; border-radius: 12px; font-size: 0.85rem; color: #856404; margin: 12px 0; text-align: left; }
-
         .grid-acoes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .btn-acao { border: none; border-radius: 12px; padding: 12px; font-weight: 800; cursor: pointer; font-size: 0.7rem; transition: 0.2s; }
-        .btn-p { background: var(--accent); color: white; } /* Presença Rápida */
-        .btn-msg-p { background: var(--info); color: white; } /* Mensagem Bíblica */
-        .btn-insp { background: var(--secondary); color: white; grid-column: span 2; } /* Mensagem Inspiracional */
-        .btn-f { background: var(--danger); color: white; grid-column: span 2; padding: 15px; } /* Falta */
+        .btn-acao { border: none; border-radius: 12px; padding: 12px; font-weight: 800; cursor: pointer; font-size: 0.7rem; color: white; }
         
-        .btn-report { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 16px; font-weight: bold; margin-top: 15px; cursor: pointer; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="header" style="text-align:center; margin-bottom:20px;">
-            <h1 style="font-size:1.1rem; color:var(--primary); margin:0;">LIDERANÇA RAMO JUATUBA</h1>
+<div class="container">
+    <div id="setupArea" class="config-box">
+        <h3 style="margin-top:0; color:#2c5282; font-size:0.9rem;">⚠️ CONFIGURAÇÃO INICIAL</h3>
+        <p style="font-size:0.75rem; color:#4a5568;">Cole o link da planilha para carregar os nomes neste celular:</p>
+        <input type="text" id="csvUrl" placeholder="Cole o link CSV aqui">
+        <button onclick="salvarLink()">CARREGAR DADOS DO RAMO</button>
+    </div>
+
+    <div class="card">
+        <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:bold;">
+            <span>Progresso de Hoje</span>
+            <span id="barTxt">0/0</span>
         </div>
+        <div class="progress-container"><div id="bar" class="progress-bar"></div></div>
+    </div>
 
-        <div class="card">
-            <div class="progress-label"><span>Progresso do Dia</span><span id="barTxt">0/0</span></div>
-            <div class="progress-container"><div id="bar" class="progress-bar"></div></div>
-        </div>
+    <div class="card">
+        <label>1. Público Alvo</label>
+        <select id="filtroOrg" onchange="filtrar()">
+            <option value="Todos">Todos</option>
+            <option value="Quorum">Quórum (H 18+)</option>
+            <option value="Sociedade">Sociedade (M 18+)</option>
+            <option value="Jovens">Jovens (12-17)</option>
+        </select>
 
-        <div class="card">
-            <label>1. Filtrar Público</label>
-            <select id="filtroOrg" onchange="filtrar()">
-                <option value="Todos">Todos os Membros</option>
-                <option value="Quorum">Quórum (H 18+)</option>
-                <option value="Sociedade">Sociedade (M 18+)</option>
-                <option value="Jovens">Jovens (12-17)</option>
-                <option value="Alerta">🚨 Em Alerta</option>
-            </select>
+        <label>2. Escolha o Nome</label>
+        <select id="selectMembro" onchange="mostrarMembro()"></select>
 
-            <label>2. Selecionar Membro</label>
-            <select id="selectMembro" onchange="mostrarMembro()">
-                <option value="">Escolha...</option>
-            </select>
-
-            <div id="membroFoco" class="membro-foco">
-                <span id="dispNome" style="font-size:1.4rem; font-weight:800; color:var(--primary); display:block;"></span>
-                <span id="dispSub" style="font-size:0.75rem; color:#718096; display:block;"></span>
-                <div id="notaFeDisplay" class="nota-fe"></div>
-                
-                <div class="grid-acoes">
-                    <button class="btn-acao btn-p" onclick="enviar('presenca')">MARCAR<br>PRESENÇA ✅</button>
-                    <button class="btn-acao btn-msg-p" onclick="enviar('biblica')">MENSAGEM<br>BÍBLICA 📖</button>
-                    <button class="btn-acao btn-insp" onclick="enviar('inspira')">ENVIAR MENSAGEM INSPIRACIONAL ✨</button>
-                    <button class="btn-acao btn-f" onclick="enviar('falta')">REGISTRAR FALTA E ENVIAR RESGATE ❤️</button>
-                </div>
+        <div id="membroFoco" class="membro-foco">
+            <b id="dispNome" style="font-size:1.4rem; color:var(--primary);"></b>
+            <div class="grid-acoes">
+                <button class="btn-acao" style="background:var(--accent);" onclick="enviar('presenca')">PRESENÇA ✅</button>
+                <button class="btn-acao" style="background:var(--info);" onclick="enviar('biblica')">BÍBLICA 📖</button>
+                <button class="btn-acao" style="background:var(--secondary); grid-column: span 2;" onclick="enviar('inspira')">MENSAGEM INSPIRACIONAL ✨</button>
+                <button class="btn-acao" style="background:var(--info); grid-column: span 2;" onclick="document.getElementById('setupArea').style.display='block'">⚙️ RECONFIGURAR PLANILHA</button>
             </div>
         </div>
-        
-        <button onclick="copiarRelatorio()" class="btn-report">📋 COPIAR RELATÓRIO</button>
-        <center><button onclick="limparDomingo()" style="background:none; border:none; color:#a0aec0; font-size:0.7rem; margin-top:20px; cursor:pointer;">🔄 Novo Domingo</button></center>
     </div>
+</div>
 
 <script>
     let membros = JSON.parse(localStorage.getItem('membrosJuatuba')) || [];
     let historico = JSON.parse(localStorage.getItem('histJuatuba')) || {};
     let linkUrl = localStorage.getItem('linkPlanilhaJuatuba') || "";
-    // Memória para não repetir mensagens para a mesma pessoa
-    let memoriaMensagens = JSON.parse(localStorage.getItem('memoriaMsgJuatuba')) || {};
 
-    const msgBiblicas = [
-        " 'O Senhor é o meu pastor, nada me faltará.' (Salmos 23:1)",
-        " 'Tudo posso naquele que me fortalece.' (Filipenses 4:13)",
-        " 'Não temas, porque eu sou contigo.' (Isaías 41:10)",
-        " 'O Senhor te abençoe e te guarde.' (Números 6:24)",
-        " 'Alegrei-me quando me disseram: Vamos à casa do Senhor.' (Salmos 122:1)"
-    ];
-
-    const msgInspiracionais = [
-        " 'O Senhor não precisa de pessoas perfeitas, Ele precisa de pessoas que ofereçam o coração e uma mente disposta.'",
-        " 'Lembre-se que o amor de Deus é infinito. Você é uma parte essencial do nosso Ramo.'",
-        " 'A fé não é saber o que o futuro reserva, mas saber Quem reserva o futuro.'",
-        " 'Sua presença ilumina as nossas reuniões. Continue brilhando sua luz!'",
-        " 'Pequenos atos de bondade podem mudar o dia de alguém. Obrigado por ser quem você é!'"
-    ];
-
-    if(linkUrl) autoSync();
+    // Se já tem link e nomes, esconde a área de configuração inicial
+    if(linkUrl && membros.length > 0) { 
+        document.getElementById('setupArea').style.display = 'none';
+        autoSync(); 
+    }
 
     async function autoSync() {
+        if(!linkUrl) return;
         try {
             const r = await fetch(linkUrl);
             const d = await r.text();
@@ -112,53 +93,27 @@
             }).filter(m => m.nome);
             localStorage.setItem('membrosJuatuba', JSON.stringify(membros));
             renderSelect();
-        } catch(e) { renderSelect(); }
+        } catch(e) { alert("Erro ao carregar link. Verifique a internet e o link CSV."); }
     }
 
-    function sortearSemRepetir(lista, pessoaNome) {
-        let usadaIdx = memoriaMensagens[pessoaNome] || -1;
-        let novaIdx;
-        do { novaIdx = Math.floor(Math.random() * lista.length); } 
-        while (novaIdx === usadaIdx && lista.length > 1);
-        
-        memoriaMensagens[pessoaNome] = novaIdx;
-        localStorage.setItem('memoriaMsgJuatuba', JSON.stringify(memoriaMensagens));
-        return lista[novaIdx];
-    }
-
-    function enviar(tipo) {
-        const idx = document.getElementById('selectMembro').value;
-        const m = membros[idx];
-        let msg = "";
-
-        if(tipo === 'presenca') {
-            historico[m.nome] = "PRESENTE";
-            alert("✅ Presente registrado!");
-        } else if(tipo === 'biblica') {
-            historico[m.nome] = "PRESENTE";
-            msg = `Oi ${m.nome}! Uma palavra bíblica para o seu dia:\n\n` + sortearSemRepetir(msgBiblicas, m.nome);
-        } else if(tipo === 'inspira') {
-            historico[m.nome] = "PRESENTE";
-            msg = `Oi ${m.nome}! Passando para compartilhar um pensamento especial:\n\n` + sortearSemRepetir(msgInspiracionais, m.nome);
-        } else if(tipo === 'falta') {
-            historico[m.nome] = "FALTANTE";
-            msg = `Olá ${m.nome}, sentimos sua falta hoje! Esperamos que esteja tudo bem. Saiba que você é importante para nós! 🙏`;
+    function salvarLink() {
+        const url = document.getElementById('csvUrl').value;
+        if(!url.includes("csv") && !url.includes("output=csv")) {
+            alert("O link parece estar errado. Ele deve ser um link CSV.");
+            return;
         }
-
-        localStorage.setItem('histJuatuba', JSON.stringify(historico));
-        if(msg) window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent(msg)}`);
-        
-        renderSelect();
-        document.getElementById('membroFoco').style.display = 'none';
-        document.getElementById('selectMembro').value = "";
+        localStorage.setItem('linkPlanilhaJuatuba', url);
+        linkUrl = url;
+        autoSync();
+        document.getElementById('setupArea').style.display = 'none';
     }
 
-    // Funções de filtro e progresso simplificadas para performance
-    function filtrar() { renderSelect(); document.getElementById('membroFoco').style.display = 'none'; }
+    function filtrar() { renderSelect(); document.getElementById('membroFoco').style.display='none'; }
+
     function renderSelect() {
         const s = document.getElementById('selectMembro');
         const f = document.getElementById('filtroOrg').value;
-        s.innerHTML = '<option value="">-- Escolha --</option>';
+        s.innerHTML = '<option value="">-- Selecione --</option>';
         membros.filter(m => {
             if(f === 'Todos') return true;
             if(f === 'Quorum') return m.idade >= 18 && m.genero === "H";
@@ -180,20 +135,22 @@
     function mostrarMembro() {
         const idx = document.getElementById('selectMembro').value;
         if(!idx) return;
-        const m = membros[idx];
-        document.getElementById('dispNome').textContent = m.nome;
-        document.getElementById('dispSub').textContent = `${m.idade} anos | ${m.genero === 'H' ? 'Quórum' : 'Sociedade'}`;
+        document.getElementById('dispNome').textContent = membros[idx].nome;
         document.getElementById('membroFoco').style.display = 'block';
     }
 
-    function copiarRelatorio() {
-        let t = `*RELATÓRIO JUATUBA*\n`;
-        for(let n in historico) t += `[${historico[n]}] - ${n}\n`;
-        navigator.clipboard.writeText(t); alert("Relatório Copiado!");
+    function enviar(tipo) {
+        const idx = document.getElementById('selectMembro').value;
+        const m = membros[idx];
+        historico[m.nome] = "PRESENTE";
+        localStorage.setItem('histJuatuba', JSON.stringify(historico));
+        
+        if(tipo === 'biblica') window.open(`https://wa.me/${m.tel}?text=Oi! Uma escritura para você...`);
+        if(tipo === 'inspira') window.open(`https://wa.me/${m.tel}?text=Oi! Uma mensagem especial...`);
+        
+        renderSelect();
+        document.getElementById('membroFoco').style.display = 'none';
     }
-
-    function limparDomingo() { if(confirm("Limpar hoje?")) { historico = {}; localStorage.setItem('histJuatuba', "{}"); location.reload(); } }
-    function salvarLink() { localStorage.setItem('linkPlanilhaJuatuba', prompt("Link CSV:")); location.reload(); }
 </script>
 </body>
 </html>
