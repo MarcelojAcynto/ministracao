@@ -13,56 +13,29 @@
             --white: #ffffff;
         }
 
-        body { 
-            font-family: 'Segoe UI', system-ui, sans-serif; 
-            background: var(--bg-gradient); 
-            background-attachment: fixed;
-            margin: 0; padding: 15px; 
-            display: flex; flex-direction: column; align-items: center; 
-        }
-
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg-gradient); background-attachment: fixed; margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
         .header { text-align: center; margin: 15px 0 25px 0; width: 100%; max-width: 500px; }
         .header h1 { color: var(--primary); font-size: 1.1em; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
         .header p { color: var(--secondary); font-weight: 600; margin: 4px 0; font-size: 0.85em; }
 
-        .card { 
-            background: var(--white); padding: 20px; border-radius: 20px; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08); width: 100%; max-width: 500px; 
-            margin-bottom: 20px; box-sizing: border-box;
-        }
+        .card { background: var(--white); padding: 20px; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); width: 100%; max-width: 500px; margin-bottom: 20px; box-sizing: border-box; }
+        h3 { color: var(--primary); font-size: 1em; margin-top: 0; display: flex; align-items: center; gap: 8px; }
 
-        h3 { color: var(--primary); font-size: 1em; margin-top: 0; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        select, input, textarea { width: 100%; padding: 14px; margin-bottom: 12px; border: 1.5px solid #e1e8ed; border-radius: 12px; box-sizing: border-box; font-size: 16px; background: white; }
 
-        select, input, textarea { 
-            width: 100%; padding: 14px; margin-bottom: 12px; border: 1.5px solid #e1e8ed; 
-            border-radius: 12px; box-sizing: border-box; font-size: 16px; background: white;
-        }
-
-        /* Destaque para o Membro Selecionado */
-        .membro-selecionado-box {
-            background: #f8fafc; border: 2px solid var(--primary);
-            border-radius: 15px; padding: 15px; margin-top: 10px;
-            display: none; /* Escondido até selecionar alguém */
-            animation: fadeIn 0.3s ease;
-        }
-
+        .membro-selecionado-box { background: #f8fafc; border: 2px solid var(--primary); border-radius: 15px; padding: 15px; margin-top: 10px; display: none; animation: fadeIn 0.3s ease; }
         .nome-grande { font-weight: bold; font-size: 1.2em; color: var(--primary); display: block; }
         .nota-click { color: var(--secondary); font-size: 0.9em; cursor: pointer; text-decoration: underline; margin: 8px 0; display: block; }
 
         .btn-group-horizontal { display: flex; gap: 10px; margin-top: 15px; }
         .btn { border: none; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        
         .btn-p { background: var(--accent); color: white; flex: 1; padding: 15px; }
         .btn-f { background: white; color: #e74c3c; border: 2px solid #e74c3c; flex: 1; padding: 15px; }
-        .btn-sync { background: var(--primary); color: white; width: 100%; padding: 12px; }
+        .btn-sync { background: var(--primary); color: white; width: 100%; padding: 12px; margin-top: 5px; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        #status-sync { font-size: 0.75em; text-align: center; color: #666; margin-top: 5px; }
 
-        #modal { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(26, 46, 68, 0.9); backdrop-filter: blur(4px);
-            justify-content: center; align-items: center; z-index: 1000; padding: 20px;
-        }
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 46, 68, 0.9); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
         .modal-content { background: white; padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; }
         .sugestao-card { background: #f8fafc; padding: 15px; border-radius: 12px; margin-top: 10px; cursor: pointer; border: 1px solid #e2e8f0; }
     </style>
@@ -75,32 +48,36 @@
     </div>
 
     <div class="card">
-        <h3><span>👤</span> Selecione o Membro</h3>
+        <h3><span>👤</span> Ministrar Membro</h3>
         <select id="selectMembro" onchange="mostrarMembro()">
-            <option value="">-- Escolha um nome na lista --</option>
+            <option value="">-- Selecione o nome --</option>
         </select>
 
         <div id="displayMembro" class="membro-selecionado-box">
-            <span class="nome-grande" id="dispNome">Nome do Membro</span>
+            <span class="nome-grande" id="dispNome">Nome</span>
             <span class="nota-click" id="dispNota" onclick="editarNotaAtual()">+ Adicionar pedido de oração</span>
-            
             <div class="btn-group-horizontal">
                 <button class="btn btn-p" onclick="abrirSugestoes('presenca')">PRESENÇA</button>
                 <button class="btn btn-f" onclick="abrirSugestoes('falta')">FALTA</button>
             </div>
         </div>
+        <div id="status-sync">Sincronizando...</div>
     </div>
 
     <div class="card">
-        <h3><span>⚙️</span> Administração</h3>
-        <input type="text" id="csvUrl" placeholder="Link da Planilha (CSV)">
-        <button class="btn btn-sync" onclick="importarDoGoogle()">🔄 Sincronizar Google Sheets</button>
-        
-        <details style="margin-top:15px; font-size: 0.9em;">
-            <summary style="cursor:pointer; color:var(--primary); font-weight:bold;">Editar Textos das Mensagens</summary>
-            <textarea id="editPresenca" style="margin-top:10px"></textarea>
-            <textarea id="editFalta"></textarea>
-            <button class="btn" style="background:var(--secondary); color:white" onclick="salvarBiblioteca()">Guardar Textos</button>
+        <details>
+            <summary style="cursor:pointer; color:var(--primary); font-weight:bold; font-size: 0.9em;">⚙️ Configurações do Sistema</summary>
+            <div style="margin-top:15px;">
+                <label style="font-size:0.8em;">Link da Planilha (CSV):</label>
+                <input type="text" id="csvUrl" placeholder="Cole o link apenas uma vez">
+                <button class="btn btn-sync" onclick="configurarLink()">💾 Guardar Link e Atualizar</button>
+                
+                <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
+                <label style="font-size:0.8em;">Editar Mensagens:</label>
+                <textarea id="editPresenca"></textarea>
+                <textarea id="editFalta"></textarea>
+                <button class="btn" style="background:var(--secondary); color:white; width:100%" onclick="salvarBiblioteca()">Guardar Textos</button>
+            </div>
         </details>
     </div>
 
@@ -114,6 +91,7 @@
 
 <script>
     let membros = JSON.parse(localStorage.getItem('membrosJuatuba')) || [];
+    let linkPlanilha = localStorage.getItem('linkPlanilhaJuatuba') || "";
     let bibPadrao = {
         presenca: "Olá, {nome}! ✨\n\nFicamos muito felizes com a tua presença hoje no Ramo Juatuba. 🌱{nota}",
         falta: "Olá, {nome}... ❤️\n\nSentimos a tua falta hoje no Ramo Juatuba. Esperamos ver-te em breve!{nota}"
@@ -122,30 +100,59 @@
     let indiceAtual = -1;
 
     // Inicialização
+    document.getElementById('csvUrl').value = linkPlanilha;
     document.getElementById('editPresenca').value = biblioteca.presenca;
     document.getElementById('editFalta').value = biblioteca.falta;
-    renderizarSelect();
+    
+    // Tenta sincronizar automaticamente ao abrir
+    if(linkPlanilha) {
+        importarDados(linkPlanilha, true);
+    } else {
+        document.getElementById('status-sync').textContent = "⚠️ Configure o link da planilha abaixo.";
+        renderizarSelect();
+    }
 
-    async function importarDoGoogle() {
+    function configurarLink() {
         const url = document.getElementById('csvUrl').value;
-        if(!url) return alert("Cole o link do CSV!");
+        if(!url) return alert("Por favor, cole o link!");
+        localStorage.setItem('linkPlanilhaJuatuba', url);
+        importarDados(url, false);
+    }
+
+    async function importarDados(url, isAuto) {
+        const status = document.getElementById('status-sync');
+        status.textContent = "⏳ Sincronizando com Google Sheets...";
         try {
             const resp = await fetch(url);
             const data = await resp.text();
             const linhas = data.split('\n').slice(1);
+            
+            // Mapear dados e preservar notas antigas
+            const novasNotas = {}; membros.forEach(m => novasNotas[m.nome] = m.nota);
+            
             membros = linhas.map(l => {
                 const col = l.split(',');
-                return { nome: col[0]?.trim().replace(/"/g, ''), tel: col[1]?.trim().replace(/"/g, ''), nota: "" };
+                const nome = col[0]?.trim().replace(/"/g, '');
+                return { 
+                    nome: nome, 
+                    tel: col[1]?.trim().replace(/"/g, ''), 
+                    nota: novasNotas[nome] || "" 
+                };
             }).filter(m => m.nome && m.tel);
+
             localStorage.setItem('membrosJuatuba', JSON.stringify(membros));
             renderizarSelect();
-            alert("Sucesso! Lista do Ramo Juatuba atualizada.");
-        } catch (e) { alert("Erro ao sincronizar planilha."); }
+            status.textContent = "✅ Lista atualizada: " + new Date().toLocaleTimeString();
+        } catch (e) {
+            status.textContent = "❌ Erro ao sincronizar. Verifique o link.";
+            if(isAuto) renderizarSelect();
+        }
     }
 
     function renderizarSelect() {
         const select = document.getElementById('selectMembro');
-        select.innerHTML = '<option value="">-- Escolha um nome na lista --</option>';
+        const selAnterior = select.value;
+        select.innerHTML = '<option value="">-- Selecione o nome --</option>';
         membros.sort((a,b) => a.nome.localeCompare(b.nome)).forEach((m, i) => {
             let opt = document.createElement('option');
             opt.value = i;
@@ -158,7 +165,6 @@
         const val = document.getElementById('selectMembro').value;
         const box = document.getElementById('displayMembro');
         if(val === "") { box.style.display = "none"; return; }
-        
         indiceAtual = val;
         const m = membros[indiceAtual];
         document.getElementById('dispNome').textContent = m.nome;
@@ -179,10 +185,8 @@
         const m = membros[indiceAtual];
         const container = document.getElementById('opcoesMensagens');
         container.innerHTML = "";
-        
         let notaTexto = m.nota ? `\n\nEstou em oração por: ${m.nota}. 🙏` : "";
         let final = biblioteca[tipo].replace("{nome}", m.nome).replace("{nota}", notaTexto);
-        
         let card = document.createElement('div');
         card.className = 'sugestao-card';
         card.innerHTML = final.replace(/\n/g, '<br>');
