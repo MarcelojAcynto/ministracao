@@ -3,29 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ministração Juatuba IA</title>
+    <title>Ministração Juatuba</title>
     <style>
-        :root { --primary: #1a2e44; --secondary: #b8860b; --accent: #2ecc71; --danger: #e74c3c; --bg: #f0f2f5; --card-bg: #ffffff; }
-        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
+        :root { --primary: #1a2e44; --secondary: #b8860b; --accent: #2ecc71; --danger: #e74c3c; --bg: #f4f7f9; --card-bg: #ffffff; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .container { width: 100%; max-width: 480px; }
-        .card { background: var(--card-bg); border-radius: 20px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); margin-bottom: 20px; box-sizing: border-box; }
-        .header { text-align: center; margin-bottom: 20px; }
-        .header h1 { font-size: 1.1rem; color: var(--primary); text-transform: uppercase; margin: 0; }
-        label { display: block; font-size: 0.7rem; font-weight: bold; color: #95a5a6; margin-bottom: 8px; text-transform: uppercase; }
-        select, textarea, input { width: 100%; padding: 15px; border-radius: 12px; border: 1.5px solid #edf2f7; font-size: 1rem; box-sizing: border-box; }
-        .membro-destaque { display: none; text-align: center; margin-top: 15px; animation: slideUp 0.4s ease; }
-        .nome-foco { font-size: 1.4rem; font-weight: 800; color: var(--primary); }
-        .grid-acoes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
-        .btn-acao { border: none; border-radius: 15px; padding: 15px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .btn-presenca { background: #e8f8f0; color: var(--accent); }
-        .btn-falta { background: #fef1f0; color: var(--danger); }
+        .card { background: var(--card-bg); border-radius: 24px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 20px; box-sizing: border-box; }
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { font-size: 1.2rem; color: var(--primary); letter-spacing: 1px; margin: 0; }
+        label { display: block; font-size: 0.75rem; font-weight: bold; color: #a0aec0; margin-bottom: 10px; text-transform: uppercase; }
+        select, textarea, input { width: 100%; padding: 16px; border-radius: 16px; border: 2.5px solid #edf2f7; font-size: 1rem; box-sizing: border-box; transition: 0.3s; }
+        select:focus, textarea:focus { border-color: var(--secondary); outline: none; }
+        .membro-destaque { display: none; text-align: center; margin-top: 20px; animation: slideUp 0.4s ease; }
+        .nome-foco { font-size: 1.6rem; font-weight: 800; color: var(--primary); display: block; }
+        .btn-nota { display: inline-block; padding: 10px 20px; background: #f8fafc; border-radius: 25px; color: var(--secondary); font-size: 0.85rem; font-weight: 600; cursor: pointer; margin: 15px 0; border: 1px solid #edf2f7; }
+        .grid-acoes { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+        .btn-acao { border: none; border-radius: 20px; padding: 20px; font-weight: 800; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
+        .btn-presenca { background: #ecfdf5; color: var(--accent); }
+        .btn-falta { background: #fff1f2; color: var(--danger); }
         
-        #modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 1000; justify-content: center; align-items: flex-end; }
-        .modal-body { background: white; width: 100%; max-width: 480px; border-radius: 25px 25px 0 0; padding: 25px; box-sizing: border-box; }
-        .opcao-msg { background: #f8f9fb; padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 1px solid #eee; cursor: pointer; font-size: 0.9rem; position: relative; }
-        .tag-ia { position: absolute; top: -8px; right: 10px; background: var(--secondary); color: white; font-size: 0.6rem; padding: 2px 8px; border-radius: 10px; }
-        
-        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        #modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: flex-end; }
+        .modal-body { background: white; width: 100%; max-width: 480px; border-radius: 30px 30px 0 0; padding: 30px; box-sizing: border-box; max-height: 90vh; overflow-y: auto; }
+        .opcao-msg { background: #f8fafc; padding: 18px; border-radius: 18px; margin-bottom: 12px; border: 2px solid transparent; cursor: pointer; font-size: 0.95rem; line-height: 1.5; position: relative; }
+        .tag-ia { position: absolute; top: -10px; right: 15px; background: var(--primary); color: white; font-size: 0.65rem; padding: 3px 10px; border-radius: 10px; font-weight: bold; }
+        .editor-livre { margin-top: 20px; border-top: 2px dashed #edf2f7; padding-top: 20px; display: none; }
+        .btn-submit { background: var(--primary); color: white; width: 100%; padding: 16px; border-radius: 15px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; }
+
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
@@ -33,40 +37,52 @@
     <div class="container">
         <div class="header">
             <h1>A Igreja de Jesus Cristo</h1>
-            <p style="color:var(--secondary); font-weight:bold; margin:0;">Ramo Juatuba - Ministração Assistida</p>
+            <p style="color:var(--secondary); font-weight:bold; margin:0;">Ramo Juatuba • Ministração</p>
         </div>
 
         <div class="card">
-            <label>Selecione o Membro</label>
+            <label>Selecione um Irmão ou Irmã</label>
             <select id="selectMembro" onchange="mostrarMembro()">
-                <option value="">Escolher...</option>
+                <option value="">Escolher da lista...</option>
             </select>
 
             <div id="membroFoco" class="membro-destaque">
-                <span class="nome-foco" id="dispNome">Nome</span><br>
-                <div id="dispNota" onclick="editarNota()" style="color:var(--secondary); font-size:0.8rem; cursor:pointer; margin:10px 0;">+ Adicionar Nota</div>
+                <span class="nome-foco" id="dispNome">Nome</span>
+                <div class="btn-nota" id="dispNota" onclick="editarNota()">+ Adicionar Nota de Cuidado</div>
 
                 <div class="grid-acoes">
-                    <button class="btn-acao btn-presenca" onclick="abrirOpcoes('presenca')">✅ PRESENÇA</button>
-                    <button class="btn-acao btn-falta" onclick="abrirOpcoes('falta')">❤️ FALTA</button>
+                    <button class="btn-acao btn-presenca" onclick="abrirPainel('presenca')">✅ PRESENÇA</button>
+                    <button class="btn-acao btn-falta" onclick="abrirPainel('falta')">❤️ FALTA</button>
                 </div>
             </div>
         </div>
 
         <details style="width:100%; text-align:center;">
-            <summary style="color:#94a3b8; cursor:pointer; font-size:0.8rem;">⚙️ Configurações da Planilha</summary>
+            <summary style="color:#a0aec0; cursor:pointer; font-size:0.8rem; font-weight:600;">CONFIGURAÇÕES DA LISTA</summary>
             <div class="card" style="margin-top:10px; text-align:left;">
-                <input type="text" id="csvUrl" placeholder="Link CSV do Google Sheets">
-                <button onclick="salvarLink()" style="width:100%; padding:12px; background:var(--primary); color:white; border:none; border-radius:10px; margin-top:10px; font-weight:bold;">Sincronizar Lista</button>
+                <label>Link CSV Google Sheets</label>
+                <input type="text" id="csvUrl" placeholder="Cole o link aqui">
+                <button onclick="salvarLink()" class="btn-submit">Sincronizar Ramo Juatuba</button>
             </div>
         </details>
     </div>
 
     <div id="modal">
         <div class="modal-body">
-            <h3 style="margin-top:0; font-size:1rem;">Mensagens Sugeridas pela IA do Ramo</h3>
+            <h3 style="margin-top:0; color:var(--primary);">Sugerido pela IA do Ramo</h3>
             <div id="listaMsgs"></div>
-            <button onclick="fecharModal()" style="width:100%; padding:15px; border:none; background:none; color:#95a5a6; font-weight:bold; cursor:pointer;">FECHAR</button>
+            
+            <button id="btnToggleEditor" onclick="mostrarEditor()" style="width:100%; padding:15px; background:#f1f5f9; color:var(--primary); border:none; border-radius:15px; font-weight:700; margin-top:10px; cursor:pointer;">
+                ✍️ CRIAR MENSAGEM DO ZERO
+            </button>
+
+            <div id="areaEditor" class="editor-livre">
+                <label>Escreva sua mensagem personalizada:</label>
+                <textarea id="textoLivre" placeholder="Ex: Olá! Como está a sua saúde?"></textarea>
+                <button onclick="enviarLivre()" class="btn-submit">🚀 ENVIAR VIA WHATSAPP</button>
+            </div>
+
+            <button onclick="fecharModal()" style="width:100%; padding:15px; border:none; background:none; color:#cbd5e0; font-weight:bold; margin-top:10px; cursor:pointer;">FECHAR</button>
         </div>
     </div>
 
@@ -75,21 +91,19 @@
     let linkUrl = localStorage.getItem('linkPlanilhaJuatuba') || "";
     let indice = -1;
 
-    // BIBLIOTECA DE INSPIRAÇÃO (O "Cérebro" da IA)
+    // Sabedoria para IA
     const sabedoria = {
-        frasesPresenca: [
-            "A vossa presença é um raio de luz para o nosso Ramo.",
-            "Obrigado por partilhares o teu espírito connosco hoje.",
-            "Recordamos as palavras do Presidente Nelson: 'O Senhor ama o esforço'.",
-            "Tua presença fortalece o testemunho de todos nós.",
-            "Como ensinado nas escrituras, 'onde estiverem dois ou três reunidos em meu nome, ali estarei'."
+        presenca: [
+            "Tua presença hoje foi como um bálsamo para o nosso Ramo.",
+            "Obrigado por partilhares a tua luz connosco. O Ramo Juatuba é mais forte contigo.",
+            "O Presidente Nelson ensinou que 'o Senhor ama o esforço', e vimos o teu hoje!",
+            "Como as escrituras dizem: 'Alegrei-me quando me disseram: Vamos à casa do Senhor'."
         ],
-        frasesFalta: [
-            "Sentimos que faltava uma peça importante hoje: tu.",
-            "Como disse o Élder Holland: 'Ninguém deve sentir-se sozinho no caminho do evangelho'.",
-            "Tua ausência foi sentida e recordada com muito carinho.",
-            "O Ramo Juatuba não é o mesmo sem a tua companhia.",
-            "Esperamos que estejas bem e que o conforto do Espírito te acompanhe onde estiveres."
+        falta: [
+            "Sentimos falta da tua energia hoje no Ramo. Estás em nossas orações.",
+            "Recordamos as palavras do Elder Holland: 'Ninguém deve sentir-se sozinho'.",
+            "Tua ausência foi notada. Esperamos que estejas bem e cercado de paz.",
+            "O Ramo Juatuba não está completo sem a tua companhia."
         ]
     };
 
@@ -113,7 +127,7 @@
 
     function renderSelect() {
         const s = document.getElementById('selectMembro');
-        s.innerHTML = '<option value="">Escolher...</option>';
+        s.innerHTML = '<option value="">Escolher da lista...</option>';
         membros.sort((a,b) => a.nome.localeCompare(b.nome)).forEach((m, i) => {
             s.innerHTML += `<option value="${i}">${m.nome}</option>`;
         });
@@ -124,39 +138,55 @@
         const box = document.getElementById('membroFoco');
         if(indice === "") { box.style.display = "none"; return; }
         document.getElementById('dispNome').textContent = membros[indice].nome;
-        document.getElementById('dispNota').textContent = membros[indice].nota || "+ Adicionar Nota";
+        document.getElementById('dispNota').textContent = membros[indice].nota || "+ Adicionar Nota de Cuidado";
         box.style.display = "block";
     }
 
     function editarNota() {
-        const n = prompt("Nota de ministração:", membros[indice].nota);
+        const n = prompt("Nota de cuidado para " + membros[indice].nome, membros[indice].nota);
         if(n !== null) { membros[indice].nota = n; localStorage.setItem('membrosJuatuba', JSON.stringify(membros)); mostrarMembro(); }
     }
 
-    function abrirOpcoes(tipo) {
-        const l = document.getElementById('listaMsgs');
-        l.innerHTML = "";
+    function abrirPainel(tipo) {
+        const container = document.getElementById('listaMsgs');
+        container.innerHTML = "";
         const m = membros[indice];
         const nTxt = m.nota ? `\n\nEstou em oração por: ${m.nota}. 🙏` : "";
         
-        // Sorteia frases para parecer dinâmico
-        const frases = tipo === 'presenca' ? sabedoria.frasesPresenca : sabedoria.frasesFalta;
+        // Sorteio de Sugestões
+        const frases = sabedoria[tipo];
         const s1 = frases[Math.floor(Math.random() * frases.length)];
         const s2 = frases[Math.floor(Math.random() * frases.length)];
 
         const sugestoes = [
-            `Olá, ${m.nome}! ✨ ${s1} Ficamos muito felizes em te ver hoje. ${nTxt}`,
-            `Oi, ${m.nome}! 👋 ${s2} Esperamos que tenhas uma semana abençoada. ❤️ ${nTxt}`
+            `Olá, ${m.nome}! ✨ ${s1} ${nTxt}`,
+            `Oi, ${m.nome}! 👋 ${s2} Tenha uma semana abençoada. ❤️ ${nTxt}`
         ];
 
-        sugestoes.forEach(t => {
+        sugestoes.forEach(txt => {
             const d = document.createElement('div');
             d.className = 'opcao-msg';
-            d.innerHTML = `<span class="tag-ia">INSPIRADA</span>${t.replace(/\n/g, '<br>')}`;
-            d.onclick = () => window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent(t)}`);
-            l.appendChild(d);
+            d.innerHTML = `<span class="tag-ia">SUGESTÃO IA</span>${txt.replace(/\n/g, '<br>')}`;
+            d.onclick = () => window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent(txt)}`);
+            container.appendChild(d);
         });
+
+        // Reiniciar Editor Livre
+        document.getElementById('textoLivre').value = `Olá, ${m.nome}! `;
+        document.getElementById('areaEditor').style.display = 'none';
+        document.getElementById('btnToggleEditor').style.display = 'block';
         document.getElementById('modal').style.display = 'flex';
+    }
+
+    function mostrarEditor() {
+        document.getElementById('areaEditor').style.display = 'block';
+        document.getElementById('btnToggleEditor').style.display = 'none';
+    }
+
+    function enviarLivre() {
+        const txt = document.getElementById('textoLivre').value;
+        window.open(`https://wa.me/${membros[indice].tel}?text=${encodeURIComponent(txt)}`);
+        fecharModal();
     }
 
     function salvarLink() { localStorage.setItem('linkPlanilhaJuatuba', document.getElementById('csvUrl').value); location.reload(); }
