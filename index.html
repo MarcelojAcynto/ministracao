@@ -1,111 +1,95 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ministração Juatuba</title>
+    <title>Liderança Juatuba</title>
     <style>
-        :root { --primary: #1a2e44; --secondary: #b8860b; --accent: #2ecc71; --danger: #e74c3c; --bg: #f4f7f9; --card-bg: #ffffff; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        :root { --primary: #1a2e44; --secondary: #b8860b; --accent: #2ecc71; --danger: #e74c3c; --bg: #f4f7f9; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
         .container { width: 100%; max-width: 480px; }
-        .card { background: var(--card-bg); border-radius: 24px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 20px; box-sizing: border-box; }
-        .header { text-align: center; margin-bottom: 25px; }
-        .header h1 { font-size: 1.2rem; color: var(--primary); letter-spacing: 1px; margin: 0; }
-        label { display: block; font-size: 0.75rem; font-weight: bold; color: #a0aec0; margin-bottom: 10px; text-transform: uppercase; }
-        select, textarea, input { width: 100%; padding: 16px; border-radius: 16px; border: 2.5px solid #edf2f7; font-size: 1rem; box-sizing: border-box; transition: 0.3s; }
-        select:focus, textarea:focus { border-color: var(--secondary); outline: none; }
-        .membro-destaque { display: none; text-align: center; margin-top: 20px; animation: slideUp 0.4s ease; }
-        .nome-foco { font-size: 1.6rem; font-weight: 800; color: var(--primary); display: block; }
-        .btn-nota { display: inline-block; padding: 10px 20px; background: #f8fafc; border-radius: 25px; color: var(--secondary); font-size: 0.85rem; font-weight: 600; cursor: pointer; margin: 15px 0; border: 1px solid #edf2f7; }
-        .grid-acoes { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
-        .btn-acao { border: none; border-radius: 20px; padding: 20px; font-weight: 800; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
-        .btn-presenca { background: #ecfdf5; color: var(--accent); }
-        .btn-falta { background: #fff1f2; color: var(--danger); }
+        .card { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.05); margin-bottom: 15px; }
         
-        #modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: flex-end; }
-        .modal-body { background: white; width: 100%; max-width: 480px; border-radius: 30px 30px 0 0; padding: 30px; box-sizing: border-box; max-height: 90vh; overflow-y: auto; }
-        .opcao-msg { background: #f8fafc; padding: 18px; border-radius: 18px; margin-bottom: 12px; border: 2px solid transparent; cursor: pointer; font-size: 0.95rem; line-height: 1.5; position: relative; }
-        .tag-ia { position: absolute; top: -10px; right: 15px; background: var(--primary); color: white; font-size: 0.65rem; padding: 3px 10px; border-radius: 10px; font-weight: bold; }
-        .editor-livre { margin-top: 20px; border-top: 2px dashed #edf2f7; padding-top: 20px; display: none; }
-        .btn-submit { background: var(--primary); color: white; width: 100%; padding: 16px; border-radius: 15px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; }
+        /* Dashboard */
+        .progress-container { width: 100%; background: #edf2f7; border-radius: 10px; height: 12px; margin: 10px 0; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent); width: 0%; transition: 0.8s ease; }
+        
+        /* Filtros */
+        .filtro-container { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+        .btn-filtro { background: #edf2f7; border: none; padding: 10px 18px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; cursor: pointer; white-space: nowrap; }
+        .btn-filtro.ativo { background: var(--primary); color: white; }
+        .btn-filtro.alerta { color: var(--danger); border: 1px solid var(--danger); }
 
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        select { width: 100%; padding: 16px; border-radius: 14px; border: 2.5px solid #edf2f7; font-size: 1rem; }
+
+        /* Card de Foco */
+        .membro-foco { display: none; text-align: center; border-top: 2px solid #f7fafc; padding-top: 20px; margin-top: 20px; animation: slideUp 0.3s; }
+        .resgate { border: 3px solid var(--danger); background: #fff5f5; border-radius: 15px; padding: 15px; }
+        .nota-fe { background: #fff9db; border: 1px solid #fcc419; padding: 12px; border-radius: 12px; font-size: 0.85rem; color: #856404; margin: 10px 0; text-align: left; }
+
+        .grid-acoes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+        .btn-acao { border: none; border-radius: 15px; padding: 18px; font-weight: 800; cursor: pointer; }
+        .btn-p { background: var(--accent); color: white; }
+        .btn-f { background: var(--danger); color: white; }
+        
+        .btn-report { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 15px; font-weight: bold; margin-top: 10px; cursor: pointer; }
+        .btn-reset { background: none; border: none; color: #a0aec0; font-size: 0.7rem; cursor: pointer; margin-top: 20px; text-decoration: underline; }
+
+        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="header">
-            <h1>A Igreja de Jesus Cristo</h1>
-            <p style="color:var(--secondary); font-weight:bold; margin:0;">Ramo Juatuba • Ministração</p>
+        <div class="header" style="text-align:center; margin-bottom:20px;">
+            <h1 style="font-size:1.2rem; color:var(--primary); margin:0;">REDE DE CUIDADO JUATUBA</h1>
+            <div id="barTxt" style="font-size:0.75rem; font-weight:bold; margin-top:10px;">0/0 Cuidados</div>
+            <div class="progress-container"><div id="bar" class="progress-bar"></div></div>
         </div>
 
         <div class="card">
-            <label>Selecione um Irmão ou Irmã</label>
+            <div class="filtro-container">
+                <button class="btn-filtro ativo" onclick="filtrar('Todos')">Todos</button>
+                <button class="btn-filtro" onclick="filtrar('Quórum')">Quórum</button>
+                <button class="btn-filtro" onclick="filtrar('Sociedade')">Sociedade</button>
+                <button class="btn-filtro alerta" onclick="filtrar('Alerta')">🚨 Alerta</button>
+            </div>
+
             <select id="selectMembro" onchange="mostrarMembro()">
-                <option value="">Escolher da lista...</option>
+                <option value="">Selecione um membro...</option>
             </select>
 
-            <div id="membroFoco" class="membro-destaque">
-                <span class="nome-foco" id="dispNome">Nome</span>
-                <div class="btn-nota" id="dispNota" onclick="editarNota()">+ Adicionar Nota de Cuidado</div>
-
+            <div id="membroFoco" class="membro-foco">
+                <div id="alertaBadge"></div>
+                <span id="dispNome" style="font-size:1.5rem; font-weight:800; color:var(--primary);"></span>
+                <div id="notaFeDisplay" class="nota-fe"></div>
+                
                 <div class="grid-acoes">
-                    <button class="btn-acao btn-presenca" onclick="abrirPainel('presenca')">✅ PRESENÇA</button>
-                    <button class="btn-acao btn-falta" onclick="abrirPainel('falta')">❤️ FALTA</button>
+                    <button class="btn-acao btn-p" onclick="enviar('presenca')">PRESENTE</button>
+                    <button class="btn-acao btn-f" onclick="enviar('falta')">FALTANTE</button>
                 </div>
+                
+                <button onclick="adicionarNotaFe()" style="background:none; border:none; color:var(--secondary); font-size:0.75rem; cursor:pointer; margin-top:15px; text-decoration:underline;">
+                    📝 Registrar necessidade ou oração
+                </button>
             </div>
         </div>
+        
+        <button onclick="copiarRelatorio()" class="btn-report">📋 COPIAR RELATÓRIO DO DIA</button>
+        <center><button onclick="limparDomingo()" class="btn-reset">🔄 Iniciar Novo Domingo</button></center>
 
-        <details style="width:100%; text-align:center;">
-            <summary style="color:#a0aec0; cursor:pointer; font-size:0.8rem; font-weight:600;">CONFIGURAÇÕES DA LISTA</summary>
-            <div class="card" style="margin-top:10px; text-align:left;">
-                <label>Link CSV Google Sheets</label>
-                <input type="text" id="csvUrl" placeholder="Cole o link aqui">
-                <button onclick="salvarLink()" class="btn-submit">Sincronizar Ramo Juatuba</button>
-            </div>
+        <details style="text-align:center; margin-top:30px; color:#a0aec0; font-size:0.7rem;">
+            <summary>Configurações de Planilha</summary>
+            <input type="text" id="csvUrl" placeholder="Link CSV" style="width:80%; margin-top:10px; padding:8px;">
+            <button onclick="salvarLink()">Sincronizar</button>
         </details>
-    </div>
-
-    <div id="modal">
-        <div class="modal-body">
-            <h3 style="margin-top:0; color:var(--primary);">Sugerido pela IA do Ramo</h3>
-            <div id="listaMsgs"></div>
-            
-            <button id="btnToggleEditor" onclick="mostrarEditor()" style="width:100%; padding:15px; background:#f1f5f9; color:var(--primary); border:none; border-radius:15px; font-weight:700; margin-top:10px; cursor:pointer;">
-                ✍️ CRIAR MENSAGEM DO ZERO
-            </button>
-
-            <div id="areaEditor" class="editor-livre">
-                <label>Escreva sua mensagem personalizada:</label>
-                <textarea id="textoLivre" placeholder="Ex: Olá! Como está a sua saúde?"></textarea>
-                <button onclick="enviarLivre()" class="btn-submit">🚀 ENVIAR VIA WHATSAPP</button>
-            </div>
-
-            <button onclick="fecharModal()" style="width:100%; padding:15px; border:none; background:none; color:#cbd5e0; font-weight:bold; margin-top:10px; cursor:pointer;">FECHAR</button>
-        </div>
     </div>
 
 <script>
     let membros = JSON.parse(localStorage.getItem('membrosJuatuba')) || [];
+    let historico = JSON.parse(localStorage.getItem('histJuatuba')) || {};
     let linkUrl = localStorage.getItem('linkPlanilhaJuatuba') || "";
-    let indice = -1;
-
-    // Sabedoria para IA
-    const sabedoria = {
-        presenca: [
-            "Tua presença hoje foi como um bálsamo para o nosso Ramo.",
-            "Obrigado por partilhares a tua luz connosco. O Ramo Juatuba é mais forte contigo.",
-            "O Presidente Nelson ensinou que 'o Senhor ama o esforço', e vimos o teu hoje!",
-            "Como as escrituras dizem: 'Alegrei-me quando me disseram: Vamos à casa do Senhor'."
-        ],
-        falta: [
-            "Sentimos falta da tua energia hoje no Ramo. Estás em nossas orações.",
-            "Recordamos as palavras do Elder Holland: 'Ninguém deve sentir-se sozinho'.",
-            "Tua ausência foi notada. Esperamos que estejas bem e cercado de paz.",
-            "O Ramo Juatuba não está completo sem a tua companhia."
-        ]
-    };
+    let filtroAtual = "Todos";
 
     if(linkUrl) autoSync();
 
@@ -114,83 +98,108 @@
             const r = await fetch(linkUrl);
             const d = await r.text();
             const linhas = d.split('\n').slice(1);
-            const notas = {}; membros.forEach(m => notas[m.nome] = m.nota);
+            const notasAntigas = {}; membros.forEach(m => notasAntigas[m.nome] = m.notaFe);
+            
             membros = linhas.map(l => {
                 const c = l.split(',');
-                const n = c[0]?.trim().replace(/"/g, '');
-                return { nome: n, tel: c[1]?.trim().replace(/"/g, ''), nota: notas[n] || "" };
-            }).filter(m => m.nome && m.tel);
+                const nome = c[0]?.trim().replace(/"/g, '');
+                return {
+                    nome: nome,
+                    tel: c[1]?.trim().replace(/"/g, ''),
+                    org: c[2]?.trim().replace(/"/g, '') || "Outros",
+                    ultima: c[3]?.trim().replace(/"/g, '') || "",
+                    notaFe: notasAntigas[nome] || ""
+                };
+            }).filter(m => m.nome);
             localStorage.setItem('membrosJuatuba', JSON.stringify(membros));
             renderSelect();
         } catch(e) { renderSelect(); }
     }
 
+    function calcularDias(dataStr) {
+        if(!dataStr) return 999;
+        const p = dataStr.split('/');
+        const d = new Date(p[2], p[1]-1, p[0]);
+        const hoje = new Date();
+        return Math.floor((hoje - d) / (1000*60*60*24));
+    }
+
+    function filtrar(org) {
+        filtroAtual = org;
+        document.querySelectorAll('.btn-filtro').forEach(b => b.classList.toggle('ativo', b.innerText.includes(org)));
+        renderSelect();
+        document.getElementById('membroFoco').style.display = 'none';
+    }
+
     function renderSelect() {
         const s = document.getElementById('selectMembro');
-        s.innerHTML = '<option value="">Escolher da lista...</option>';
-        membros.sort((a,b) => a.nome.localeCompare(b.nome)).forEach((m, i) => {
-            s.innerHTML += `<option value="${i}">${m.nome}</option>`;
+        s.innerHTML = '<option value="">-- Selecione --</option>';
+        const lista = membros.filter(m => {
+            if(filtroAtual === 'Alerta') return calcularDias(m.ultima) > 14;
+            return filtroAtual === 'Todos' || m.org.includes(filtroAtual);
         });
+        lista.sort((a,b) => a.nome.localeCompare(b.nome)).forEach(m => {
+            const status = historico[m.nome] ? "✅ " : (calcularDias(m.ultima) > 14 ? "🚨 " : "");
+            const opt = document.createElement('option');
+            opt.value = membros.indexOf(m);
+            opt.textContent = status + m.nome;
+            s.appendChild(opt);
+        });
+        atualizarProgresso();
     }
 
     function mostrarMembro() {
-        indice = document.getElementById('selectMembro').value;
+        const idx = document.getElementById('selectMembro').value;
         const box = document.getElementById('membroFoco');
-        if(indice === "") { box.style.display = "none"; return; }
-        document.getElementById('dispNome').textContent = membros[indice].nome;
-        document.getElementById('dispNota').textContent = membros[indice].nota || "+ Adicionar Nota de Cuidado";
-        box.style.display = "block";
-    }
-
-    function editarNota() {
-        const n = prompt("Nota de cuidado para " + membros[indice].nome, membros[indice].nota);
-        if(n !== null) { membros[indice].nota = n; localStorage.setItem('membrosJuatuba', JSON.stringify(membros)); mostrarMembro(); }
-    }
-
-    function abrirPainel(tipo) {
-        const container = document.getElementById('listaMsgs');
-        container.innerHTML = "";
-        const m = membros[indice];
-        const nTxt = m.nota ? `\n\nEstou em oração por: ${m.nota}. 🙏` : "";
+        if(!idx) { box.style.display = 'none'; return; }
+        const m = membros[idx];
+        const isAlerta = calcularDias(m.ultima) > 14;
         
-        // Sorteio de Sugestões
-        const frases = sabedoria[tipo];
-        const s1 = frases[Math.floor(Math.random() * frases.length)];
-        const s2 = frases[Math.floor(Math.random() * frases.length)];
-
-        const sugestoes = [
-            `Olá, ${m.nome}! ✨ ${s1} ${nTxt}`,
-            `Oi, ${m.nome}! 👋 ${s2} Tenha uma semana abençoada. ❤️ ${nTxt}`
-        ];
-
-        sugestoes.forEach(txt => {
-            const d = document.createElement('div');
-            d.className = 'opcao-msg';
-            d.innerHTML = `<span class="tag-ia">SUGESTÃO IA</span>${txt.replace(/\n/g, '<br>')}`;
-            d.onclick = () => window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent(txt)}`);
-            container.appendChild(d);
-        });
-
-        // Reiniciar Editor Livre
-        document.getElementById('textoLivre').value = `Olá, ${m.nome}! `;
-        document.getElementById('areaEditor').style.display = 'none';
-        document.getElementById('btnToggleEditor').style.display = 'block';
-        document.getElementById('modal').style.display = 'flex';
+        document.getElementById('dispNome').textContent = m.nome;
+        document.getElementById('notaFeDisplay').innerHTML = m.notaFe ? `<b>🙏 Oração/Necessidade:</b> ${m.notaFe}` : "";
+        document.getElementById('notaFeDisplay').style.display = m.notaFe ? 'block' : 'none';
+        
+        box.className = isAlerta ? "membro-foco resgate" : "membro-foco";
+        document.getElementById('alertaBadge').innerHTML = isAlerta ? `<b style="color:var(--danger); font-size:0.7rem;">🚨 RESGATE PRIORITÁRIO</b>` : "";
+        box.style.display = 'block';
     }
 
-    function mostrarEditor() {
-        document.getElementById('areaEditor').style.display = 'block';
-        document.getElementById('btnToggleEditor').style.display = 'none';
+    function enviar(tipo) {
+        const idx = document.getElementById('selectMembro').value;
+        const m = membros[idx];
+        const dias = calcularDias(m.ultima);
+        let msg = tipo === 'presenca' ? 
+            `Olá ${m.nome}! Ficamos muito felizes em te ver hoje no Ramo Juatuba! ✨` : 
+            (dias > 14 ? `Olá ${m.nome}. ❤️ Sentimos muito sua falta. Você é muito importante para nós e estamos aqui para o que precisar!` : `Oi ${m.nome}, sentimos sua falta hoje no Ramo. Tudo bem?`);
+        
+        historico[m.nome] = tipo.toUpperCase();
+        localStorage.setItem('histJuatuba', JSON.stringify(historico));
+        window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent(msg)}`);
+        renderSelect();
     }
 
-    function enviarLivre() {
-        const txt = document.getElementById('textoLivre').value;
-        window.open(`https://wa.me/${membros[indice].tel}?text=${encodeURIComponent(txt)}`);
-        fecharModal();
+    function adicionarNotaFe() {
+        const idx = document.getElementById('selectMembro').value;
+        const n = prompt("Qual a necessidade ou pedido de oração?", membros[idx].notaFe);
+        if(n !== null) { membros[idx].notaFe = n; localStorage.setItem('membrosJuatuba', JSON.stringify(membros)); mostrarMembro(); }
     }
 
+    function atualizarProgresso() {
+        const f = Object.keys(historico).length;
+        const t = membros.length;
+        const p = t > 0 ? (f/t)*100 : 0;
+        document.getElementById('bar').style.width = p + "%";
+        document.getElementById('barTxt').textContent = `${f} de ${t} contatados`;
+    }
+
+    function copiarRelatorio() {
+        let t = `*Relatório Juatuba - ${new Date().toLocaleDateString()}*\n\n`;
+        for(let n in historico) t += `[${historico[n]}] - ${n}\n`;
+        navigator.clipboard.writeText(t); alert("Copiado!");
+    }
+
+    function limparDomingo() { if(confirm("Limpar ✅ para hoje?")) { historico = {}; localStorage.setItem('histJuatuba', "{}"); location.reload(); } }
     function salvarLink() { localStorage.setItem('linkPlanilhaJuatuba', document.getElementById('csvUrl').value); location.reload(); }
-    function fecharModal() { document.getElementById('modal').style.display = 'none'; }
 </script>
 </body>
 </html>
