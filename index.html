@@ -3,29 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ministração Juatuba Pro</title>
+    <title>Ministração Juatuba V29</title>
     <style>
-        :root { --primary: #1a2e44; --secondary: #b8860b; --accent: #2ecc71; --danger: #e74c3c; --bg: #f4f7f9; }
+        :root { --primary: #1a2e44; --secondary: #b8860b; --accent: #2ecc71; --info: #3498db; --danger: #e74c3c; --bg: #f4f7f9; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
         .container { width: 100%; max-width: 480px; }
-        .card { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.05); margin-bottom: 15px; border: 1px solid rgba(0,0,0,0.05); }
+        .card { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.05); margin-bottom: 15px; }
         
         .progress-label { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
         .progress-container { width: 100%; background: #edf2f7; border-radius: 10px; height: 12px; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--accent); width: 0%; transition: 0.8s ease; }
+        .progress-bar { height: 100%; background: var(--accent); width: 0%; transition: 0.8s; }
 
-        label { display: block; font-size: 0.7rem; font-weight: bold; color: #a0aec0; margin: 15px 0 5px 0; text-transform: uppercase; letter-spacing: 1px; }
-        select { width: 100%; padding: 16px; border-radius: 14px; border: 2.5px solid #edf2f7; font-size: 1rem; color: var(--primary); background: #fff; cursor: pointer; }
+        label { display: block; font-size: 0.7rem; font-weight: bold; color: #a0aec0; margin: 15px 0 5px 0; text-transform: uppercase; }
+        select { width: 100%; padding: 16px; border-radius: 14px; border: 2px solid #edf2f7; font-size: 1rem; color: var(--primary); background: #fff; cursor: pointer; }
 
         .membro-foco { display: none; text-align: center; border-top: 2px solid #f7fafc; padding-top: 20px; margin-top: 20px; animation: slideUp 0.3s ease; }
-        .resgate { border: 3px solid var(--danger); background: #fff5f5; border-radius: 18px; padding: 15px; }
         .nota-fe { background: #fff9db; border: 1px solid #fcc419; padding: 12px; border-radius: 12px; font-size: 0.85rem; color: #856404; margin: 12px 0; text-align: left; }
 
         .grid-acoes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .btn-acao { border: none; border-radius: 12px; padding: 12px; font-weight: 800; cursor: pointer; font-size: 0.75rem; transition: 0.2s; }
-        .btn-p { background: var(--accent); color: white; }
-        .btn-f { background: var(--danger); color: white; grid-column: span 2; padding: 18px; font-size: 0.9rem; }
-        .btn-msg-p { background: #3498db; color: white; }
+        .btn-acao { border: none; border-radius: 12px; padding: 12px; font-weight: 800; cursor: pointer; font-size: 0.7rem; transition: 0.2s; }
+        .btn-p { background: var(--accent); color: white; } /* Presença Rápida */
+        .btn-msg-p { background: var(--info); color: white; } /* Mensagem Bíblica */
+        .btn-insp { background: var(--secondary); color: white; grid-column: span 2; } /* Mensagem Inspiracional */
+        .btn-f { background: var(--danger); color: white; grid-column: span 2; padding: 15px; } /* Falta */
         
         .btn-report { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 16px; font-weight: bold; margin-top: 15px; cursor: pointer; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -39,71 +39,64 @@
         </div>
 
         <div class="card">
-            <div class="progress-label"><span>Progresso do Domingo</span><span id="barTxt">0/0</span></div>
+            <div class="progress-label"><span>Progresso do Dia</span><span id="barTxt">0/0</span></div>
             <div class="progress-container"><div id="bar" class="progress-bar"></div></div>
         </div>
 
         <div class="card">
-            <label>1. Público Alvo</label>
+            <label>1. Filtrar Público</label>
             <select id="filtroOrg" onchange="filtrar()">
                 <option value="Todos">Todos os Membros</option>
-                <option value="Quorum">Quórum (Homens 18+)</option>
-                <option value="Sociedade">Sociedade (Mulheres 18+)</option>
-                <option value="Jovens">Jovens (12 a 17 anos)</option>
-                <option value="Alerta">🚨 Em Alerta (Resgate)</option>
+                <option value="Quorum">Quórum (H 18+)</option>
+                <option value="Sociedade">Sociedade (M 18+)</option>
+                <option value="Jovens">Jovens (12-17)</option>
+                <option value="Alerta">🚨 Em Alerta</option>
             </select>
 
-            <label>2. Selecionar Nome</label>
+            <label>2. Selecionar Membro</label>
             <select id="selectMembro" onchange="mostrarMembro()">
                 <option value="">Escolha...</option>
             </select>
 
             <div id="membroFoco" class="membro-foco">
-                <div id="alertaBadge"></div>
                 <span id="dispNome" style="font-size:1.4rem; font-weight:800; color:var(--primary); display:block;"></span>
-                <span id="dispSub" style="font-size:0.75rem; color:#718096; display:block; margin-bottom:5px;"></span>
-                
+                <span id="dispSub" style="font-size:0.75rem; color:#718096; display:block;"></span>
                 <div id="notaFeDisplay" class="nota-fe"></div>
                 
                 <div class="grid-acoes">
                     <button class="btn-acao btn-p" onclick="enviar('presenca')">MARCAR<br>PRESENÇA ✅</button>
-                    <button class="btn-acao btn-msg-p" onclick="enviar('presenca_msg')">PRESENÇA +<br>ESCRITURA 📖</button>
-                    <button class="btn-acao btn-f" onclick="enviar('falta')">ENVIAR MENSAGEM DE FALTA ❤️</button>
+                    <button class="btn-acao btn-msg-p" onclick="enviar('biblica')">MENSAGEM<br>BÍBLICA 📖</button>
+                    <button class="btn-acao btn-insp" onclick="enviar('inspira')">ENVIAR MENSAGEM INSPIRACIONAL ✨</button>
+                    <button class="btn-acao btn-f" onclick="enviar('falta')">REGISTRAR FALTA E ENVIAR RESGATE ❤️</button>
                 </div>
-                
-                <button onclick="adicionarNotaFe()" style="background:none; border:none; color:var(--secondary); font-size:0.75rem; cursor:pointer; margin-top:15px; text-decoration:underline;">
-                    📝 Anotação de Ministração
-                </button>
             </div>
         </div>
         
         <button onclick="copiarRelatorio()" class="btn-report">📋 COPIAR RELATÓRIO</button>
         <center><button onclick="limparDomingo()" style="background:none; border:none; color:#a0aec0; font-size:0.7rem; margin-top:20px; cursor:pointer;">🔄 Novo Domingo</button></center>
-
-        <details style="text-align:center; margin-top:30px; color:#a0aec0; font-size:0.7rem;">
-            <summary>Configurações de Sincronização</summary>
-            <input type="text" id="csvUrl" placeholder="Link CSV da Planilha" style="width:80%; margin:10px 0; padding:8px;">
-            <button onclick="salvarLink()">Atualizar</button>
-        </details>
     </div>
 
 <script>
     let membros = JSON.parse(localStorage.getItem('membrosJuatuba')) || [];
     let historico = JSON.parse(localStorage.getItem('histJuatuba')) || {};
     let linkUrl = localStorage.getItem('linkPlanilhaJuatuba') || "";
+    // Memória para não repetir mensagens para a mesma pessoa
+    let memoriaMensagens = JSON.parse(localStorage.getItem('memoriaMsgJuatuba')) || {};
 
-    const escriturasFalta = [
-        "\n\n'O Senhor é o meu pastor, nada me faltará.' (Salmos 23:1)",
-        "\n\n'Tudo posso naquele que me fortalece.' (Filipenses 4:13)",
-        "\n\n'Vinde a mim, todos os que estais cansados, e eu vos aliviarei.' (Mateus 11:28)",
-        "\n\n'Não temas, porque eu sou contigo.' (Isaías 41:10)"
+    const msgBiblicas = [
+        " 'O Senhor é o meu pastor, nada me faltará.' (Salmos 23:1)",
+        " 'Tudo posso naquele que me fortalece.' (Filipenses 4:13)",
+        " 'Não temas, porque eu sou contigo.' (Isaías 41:10)",
+        " 'O Senhor te abençoe e te guarde.' (Números 6:24)",
+        " 'Alegrei-me quando me disseram: Vamos à casa do Senhor.' (Salmos 122:1)"
     ];
 
-    const escriturasPresente = [
-        "\n\n'Alegrei-me quando me disseram: Vamos à casa do Senhor.' (Salmos 122:1)",
-        "\n\n'Onde estiverem dois ou três reunidos em meu nome, ali estou eu.' (Mateus 18:20)",
-        "\n\n'O Senhor te abençoe e te guarde.' (Números 6:24)",
-        "\n\n'Servi ao Senhor com alegria.' (Salmos 100:2)"
+    const msgInspiracionais = [
+        " 'O Senhor não precisa de pessoas perfeitas, Ele precisa de pessoas que ofereçam o coração e uma mente disposta.'",
+        " 'Lembre-se que o amor de Deus é infinito. Você é uma parte essencial do nosso Ramo.'",
+        " 'A fé não é saber o que o futuro reserva, mas saber Quem reserva o futuro.'",
+        " 'Sua presença ilumina as nossas reuniões. Continue brilhando sua luz!'",
+        " 'Pequenos atos de bondade podem mudar o dia de alguém. Obrigado por ser quem você é!'"
     ];
 
     if(linkUrl) autoSync();
@@ -113,115 +106,94 @@
             const r = await fetch(linkUrl);
             const d = await r.text();
             const linhas = d.split('\n').slice(1);
-            const notasAntigas = {}; membros.forEach(m => notasAntigas[m.nome] = m.notaFe);
             membros = linhas.map(l => {
                 const c = l.split(',');
-                if (c.length < 2) return null;
-                const nome = c[0]?.trim().replace(/"/g, '');
-                return {
-                    nome: nome,
-                    tel: c[1]?.trim().replace(/"/g, ''),
-                    genero: c[2]?.trim().toUpperCase().replace(/"/g, '') || "H",
-                    ultima: c[3]?.trim().replace(/"/g, '') || "",
-                    idade: parseInt(c[4]?.trim().replace(/"/g, '')) || 0,
-                    notaFe: notasAntigas[nome] || ""
-                };
-            }).filter(m => m && m.nome);
+                return { nome: c[0]?.trim(), tel: c[1]?.trim(), genero: c[2]?.trim().toUpperCase(), ultima: c[3]?.trim(), idade: parseInt(c[4]?.trim()) || 0 };
+            }).filter(m => m.nome);
             localStorage.setItem('membrosJuatuba', JSON.stringify(membros));
             renderSelect();
         } catch(e) { renderSelect(); }
     }
 
-    function calcularDias(dataStr) {
-        if(!dataStr || dataStr.length < 5) return 999;
-        const p = dataStr.split('/');
-        const d = new Date(p[2], p[1]-1, p[0]);
-        return Math.floor((new Date() - d) / (1000*60*60*24));
-    }
-
-    function filtrar() { renderSelect(); document.getElementById('membroFoco').style.display = 'none'; }
-
-    function renderSelect() {
-        const s = document.getElementById('selectMembro');
-        const filtro = document.getElementById('filtroOrg').value;
-        s.innerHTML = '<option value="">-- Escolha --</option>';
-        const lista = membros.filter(m => {
-            if(filtro === 'Todos') return true;
-            if(filtro === 'Alerta') return calcularDias(m.ultima) > 14;
-            if(filtro === 'Jovens') return m.idade >= 12 && m.idade <= 17;
-            if(filtro === 'Quorum') return m.idade >= 18 && m.genero === "H";
-            if(filtro === 'Sociedade') return m.idade >= 18 && m.genero === "M";
-            return true;
-        });
-        lista.sort((a,b) => a.nome.localeCompare(b.nome)).forEach(m => {
-            const status = historico[m.nome] ? "✅ " : (calcularDias(m.ultima) > 14 ? "🚨 " : "");
-            const opt = document.createElement('option');
-            opt.value = membros.indexOf(m);
-            opt.textContent = status + m.nome;
-            s.appendChild(opt);
-        });
-        atualizarProgresso();
-    }
-
-    function mostrarMembro() {
-        const idx = document.getElementById('selectMembro').value;
-        const box = document.getElementById('membroFoco');
-        if(!idx) { box.style.display = 'none'; return; }
-        const m = membros[idx];
-        const isAlerta = calcularDias(m.ultima) > 14;
-        document.getElementById('dispNome').textContent = m.nome;
-        document.getElementById('dispSub').textContent = `${m.idade} anos • ${m.genero === 'H' ? 'Quórum' : 'Sociedade'}`;
-        document.getElementById('notaFeDisplay').innerHTML = m.notaFe ? `<b>🙏 Nota:</b> ${m.notaFe}` : "";
-        document.getElementById('notaFeDisplay').style.display = m.notaFe ? 'block' : 'none';
-        box.className = isAlerta ? "membro-foco resgate" : "membro-foco";
-        document.getElementById('alertaBadge').innerHTML = isAlerta ? `<b style="color:var(--danger); font-size:0.6rem;">🚨 RESGATE PRIORITÁRIO</b>` : "";
-        box.style.display = 'block';
+    function sortearSemRepetir(lista, pessoaNome) {
+        let usadaIdx = memoriaMensagens[pessoaNome] || -1;
+        let novaIdx;
+        do { novaIdx = Math.floor(Math.random() * lista.length); } 
+        while (novaIdx === usadaIdx && lista.length > 1);
+        
+        memoriaMensagens[pessoaNome] = novaIdx;
+        localStorage.setItem('memoriaMsgJuatuba', JSON.stringify(memoriaMensagens));
+        return lista[novaIdx];
     }
 
     function enviar(tipo) {
         const idx = document.getElementById('selectMembro').value;
         const m = membros[idx];
-        const dias = calcularDias(m.ultima);
-        historico[m.nome] = (tipo === 'falta') ? "FALTANTE" : "PRESENTE";
-        localStorage.setItem('histJuatuba', JSON.stringify(historico));
+        let msg = "";
 
         if(tipo === 'presenca') {
-            alert(`${m.nome} registrado!`);
-        } else if(tipo === 'presenca_msg') {
-            const esc = escriturasPresente[Math.floor(Math.random() * escriturasPresente.length)];
-            const msg = `Oi ${m.nome}! Ficamos muito felizes com sua presença hoje no Ramo Juatuba. Sua luz faz a diferença!` + esc;
-            window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent(msg)}`);
-        } else {
-            const esc = escriturasFalta[Math.floor(Math.random() * escriturasFalta.length)];
-            const msg = (dias > 14 ? `Olá ${m.nome}. ❤️ Sentimos muito sua falta. Você é precioso para nós e estamos aqui para o que precisar!` : `Oi ${m.nome}, sentimos sua falta no Ramo hoje. Esperamos que esteja tudo bem!`) + esc;
-            window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent(msg)}`);
+            historico[m.nome] = "PRESENTE";
+            alert("✅ Presente registrado!");
+        } else if(tipo === 'biblica') {
+            historico[m.nome] = "PRESENTE";
+            msg = `Oi ${m.nome}! Uma palavra bíblica para o seu dia:\n\n` + sortearSemRepetir(msgBiblicas, m.nome);
+        } else if(tipo === 'inspira') {
+            historico[m.nome] = "PRESENTE";
+            msg = `Oi ${m.nome}! Passando para compartilhar um pensamento especial:\n\n` + sortearSemRepetir(msgInspiracionais, m.nome);
+        } else if(tipo === 'falta') {
+            historico[m.nome] = "FALTANTE";
+            msg = `Olá ${m.nome}, sentimos sua falta hoje! Esperamos que esteja tudo bem. Saiba que você é importante para nós! 🙏`;
         }
+
+        localStorage.setItem('histJuatuba', JSON.stringify(historico));
+        if(msg) window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent(msg)}`);
+        
         renderSelect();
         document.getElementById('membroFoco').style.display = 'none';
         document.getElementById('selectMembro').value = "";
     }
 
-    function adicionarNotaFe() {
-        const idx = document.getElementById('selectMembro').value;
-        const n = prompt("Anotação para " + membros[idx].nome, membros[idx].notaFe);
-        if(n !== null) { membros[idx].notaFe = n; localStorage.setItem('membrosJuatuba', JSON.stringify(membros)); mostrarMembro(); }
+    // Funções de filtro e progresso simplificadas para performance
+    function filtrar() { renderSelect(); document.getElementById('membroFoco').style.display = 'none'; }
+    function renderSelect() {
+        const s = document.getElementById('selectMembro');
+        const f = document.getElementById('filtroOrg').value;
+        s.innerHTML = '<option value="">-- Escolha --</option>';
+        membros.filter(m => {
+            if(f === 'Todos') return true;
+            if(f === 'Quorum') return m.idade >= 18 && m.genero === "H";
+            if(f === 'Sociedade') return m.idade >= 18 && m.genero === "M";
+            if(f === 'Jovens') return m.idade >= 12 && m.idade <= 17;
+            return true;
+        }).sort((a,b)=>a.nome.localeCompare(b.nome)).forEach(m => {
+            let status = historico[m.nome] ? "✅ " : "";
+            let opt = document.createElement('option');
+            opt.value = membros.indexOf(m);
+            opt.textContent = status + m.nome;
+            s.appendChild(opt);
+        });
+        const feitos = Object.keys(historico).length;
+        document.getElementById('bar').style.width = (membros.length > 0 ? (feitos/membros.length)*100 : 0) + "%";
+        document.getElementById('barTxt').textContent = `${feitos}/${membros.length}`;
     }
 
-    function atualizarProgresso() {
-        const f = Object.keys(historico).length;
-        const t = membros.length;
-        document.getElementById('bar').style.width = (t > 0 ? (f/t)*100 : 0) + "%";
-        document.getElementById('barTxt').textContent = `${f}/${t} Cuidados`;
+    function mostrarMembro() {
+        const idx = document.getElementById('selectMembro').value;
+        if(!idx) return;
+        const m = membros[idx];
+        document.getElementById('dispNome').textContent = m.nome;
+        document.getElementById('dispSub').textContent = `${m.idade} anos | ${m.genero === 'H' ? 'Quórum' : 'Sociedade'}`;
+        document.getElementById('membroFoco').style.display = 'block';
     }
 
     function copiarRelatorio() {
-        let t = `*RELATÓRIO JUATUBA - ${new Date().toLocaleDateString()}*\n\n`;
+        let t = `*RELATÓRIO JUATUBA*\n`;
         for(let n in historico) t += `[${historico[n]}] - ${n}\n`;
-        navigator.clipboard.writeText(t); alert("Copiado!");
+        navigator.clipboard.writeText(t); alert("Relatório Copiado!");
     }
 
-    function limparDomingo() { if(confirm("Zerar progresso de hoje?")) { historico = {}; localStorage.setItem('histJuatuba', "{}"); location.reload(); } }
-    function salvarLink() { localStorage.setItem('linkPlanilhaJuatuba', document.getElementById('csvUrl').value); location.reload(); }
+    function limparDomingo() { if(confirm("Limpar hoje?")) { historico = {}; localStorage.setItem('histJuatuba', "{}"); location.reload(); } }
+    function salvarLink() { localStorage.setItem('linkPlanilhaJuatuba', prompt("Link CSV:")); location.reload(); }
 </script>
 </body>
 </html>
