@@ -3,213 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juatuba Ministerial V36</title>
+    <title>Ministrando com Amor - Ramo Juatuba</title>
     <style>
-        :root { --grad: linear-gradient(135deg, #1a2e44 0%, #2c5282 100%); --accent: #27ae60; --bg: #f4f7f9; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); margin: 0; padding: 15px; min-height: 100vh; }
-        .container { max-width: 450px; margin: 0 auto; }
-        
-        /* Header sempre visível */
-        .header-main { background: var(--grad); color: white; padding: 25px 20px; border-radius: 0 0 25px 25px; margin: -15px -15px 20px -15px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        
-        .card { background: white; border-radius: 18px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 15px; border: 1px solid #e2e8f0; }
-        
-        .btn-acao { border: none; border-radius: 12px; padding: 15px; font-weight: 700; cursor: pointer; transition: 0.2s; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; text-align: center; color: white; width: 100%; }
-        .btn-p { background: #27ae60; }
-        .btn-msg { background: #2980b9; }
-        .btn-insp { background: #d4af37; grid-column: span 2; }
-        .btn-falta { background: #c0392b; grid-column: span 2; padding: 18px; margin-top: 10px; }
-        
-        select { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #edf2f7; background: #f8fafc; margin-top: 8px; font-size: 1rem; color: #2d3748; }
-        .progress-bar { height: 10px; background: #27ae60; border-radius: 5px; transition: 1s; width: 0%; }
-        
-        /* Área de erro ou configuração */
-        #setupArea { border: 2px dashed #2b6cb0; background: #ebf8ff; }
-        input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e0; margin-top: 10px; box-sizing: border-box; }
+        :root { --grad: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); --accent: #10b981; --bg: #f8fafc; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); margin: 0; padding: 0; min-height: 100vh; color: #1e293b; }
+        .header-main { background: var(--grad); color: white; padding: 45px 20px; border-radius: 0 0 35px 35px; text-align: center; box-shadow: 0 10px 25px rgba(30, 58, 138, 0.15); margin-bottom: 25px; }
+        .container { width: 92%; max-width: 450px; margin: 0 auto; padding-bottom: 40px; }
+        .card { background: white; border-radius: 24px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 20px; border: 1px solid #f1f5f9; }
+        .btn-acao { border: none; border-radius: 18px; padding: 20px 10px; font-weight: 700; cursor: pointer; font-size: 0.75rem; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+        .btn-p { background: #10b981; } .btn-msg { background: #3b82f6; } .btn-insp { background: #f59e0b; grid-column: span 2; }
+        .btn-falta { background: #ef4444; grid-column: span 2; padding: 22px; margin-top: 10px; }
+        label { font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        select { width: 100%; padding: 16px; border-radius: 16px; border: 2px solid #f1f5f9; background: #f8fafc; font-size: 1rem; color: #1e293b; outline: none; }
+        .progress-container { background: #e2e8f0; height: 12px; border-radius: 10px; overflow: hidden; }
+        .progress-bar { height: 100%; background: #10b981; transition: 1s; width: 0%; }
+        #status-msg { font-size: 0.8rem; text-align: center; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header-main">
-        <h2 style="margin:0;">Ramo Juatuba ⛪</h2>
-        <p style="margin:5px 0 0; opacity:0.8; font-size:0.8rem;">Ministração e Cuidado</p>
+        <h1 style="margin:0; font-size: 1.8rem;">Ministrando com Amor ⛪</h1>
+        <p style="margin:8px 0 0; opacity:0.9;">Ramo Juatuba • Gestão Pastoral</p>
     </div>
 
     <div id="setupArea" class="card">
-        <h4 style="margin:0 0 5px; color:#2b6cb0;">⚙️ Configuração Necessária</h4>
-        <p style="font-size:0.75rem; color:#4a5568;">O layout precisa do link da planilha para carregar os nomes:</p>
-        <input type="text" id="csvUrl" placeholder="Cole aqui o link CSV do Google Sheets">
-        <button onclick="salvarLink()" style="width:100%; margin-top:10px; padding:12px; background:#2b6cb0; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">CARREGAR DADOS</button>
+        <h4 style="margin:0 0 8px; color:#1e3a8a;">⚙️ Sincronização de Dados</h4>
+        <input type="text" id="csvUrl" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRTopE61dzT2l8RVYiJwDFhotBoXuSvN_R95Rl5W26rSi7GDlfHtxSmyZxKloNMLod4UYDLfKd4eSTn/pub?output=csv" style="width:100%; padding:12px; border-radius:10px; border:1px solid #ddd; margin-bottom:15px;">
+        <button onclick="forcarSincronizacao()" style="width:100%; padding:16px; background:#3b82f6; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer;">CARREGAR IRMÃOS AGORA</button>
+        <div id="status-msg"></div>
     </div>
 
     <div id="mainContent" style="display:none;">
         <div class="card">
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:bold; font-size:0.8rem;">
-                <span>Progresso Ministerial</span>
+            <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-weight:800; font-size:0.85rem; color:#1e3a8a;">
+                <span>PROGRESSO</span>
                 <span id="barTxt">0/0</span>
             </div>
-            <div style="background:#edf2f7; border-radius:5px; overflow:hidden;"><div id="bar" class="progress-bar"></div></div>
+            <div class="progress-container"><div id="bar" class="progress-bar"></div></div>
         </div>
 
         <div class="card">
-            <label style="font-size:0.7rem; font-weight:bold; color:#a0aec0;">ORGANIZAÇÃO</label>
-            <select id="filtroOrg" onchange="filtrar()">
-                <option value="Todos">Todos os Membros</option>
-                <option value="Quorum">Quórum (H 18+)</option>
-                <option value="Sociedade">Sociedade (M 18+)</option>
-                <option value="Jovens">Jovens (12-17)</option>
-            </select>
+            <label>Filtrar Organização</label>
+            <select id="filtroOrg" onchange="renderLista()"><option value="Todos">Todos os Membros</option><option value="Quorum">Quórum</option><option value="Sociedade">Sociedade</option><option value="Jovens">Jovens</option></select>
+            <label style="margin-top:20px;">Localizar Irmão(ã)</label>
+            <select id="selectMembro" onchange="mostrarMembro()"></select>
 
-            <label style="font-size:0.7rem; font-weight:bold; color:#a0aec0; display:block; margin-top:15px;">NOME DO MEMBRO</label>
-            <select id="selectMembro" onchange="mostrarMembro()">
-                <option value="">Escolha um nome...</option>
-            </select>
-
-            <div id="membroFoco" style="display:none; margin-top:25px; text-align:center; border-top:1px solid #eee; padding-top:20px;">
-                <div id="dispNome" style="font-size:1.5rem; font-weight:800; color:#1a365d; margin-bottom:20px;"></div>
-                
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <button class="btn-acao btn-p" onclick="enviar('presenca')">MARCAR<br>PRESENÇA ✅</button>
-                    <button class="btn-acao btn-msg" onclick="enviar('biblica')">PRESENÇA +<br>ESCRITURA 📖</button>
-                    <button class="btn-acao btn-insp" onclick="enviar('inspira')">PENSAMENTO DA<br>CONFERÊNCIA ✨</button>
-                    <button class="btn-acao btn-falta" onclick="enviar('falta')">REGISTRAR FALTA E MOTIVAR ❤️</button>
+            <div id="membroFoco" style="display:none; margin-top:30px; text-align:center; border-top:2px solid #f1f5f9; padding-top:25px;">
+                <div id="dispNome" style="font-size:1.7rem; font-weight:900; color:#1e3a8a; margin-bottom:25px;"></div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+                    <button class="btn-acao btn-p" onclick="registrar('presenca')">✅ PRESENÇA</button>
+                    <button class="btn-acao btn-msg" onclick="registrar('msg')">📖 ESCRITURA</button>
+                    <button class="btn-acao btn-insp" onclick="registrar('insp')">✨ CONFERÊNCIA</button>
+                    <button class="btn-acao btn-falta" onclick="registrar('falta')">❤️ RESGATE</button>
                 </div>
             </div>
         </div>
-        
-        <button onclick="copiarRelatorio()" style="width:100%; padding:18px; border:none; border-radius:15px; background:#1a365d; color:white; font-weight:bold; cursor:pointer;">📋 ENVIAR RELATÓRIO VIA WHATSAPP</button>
-        <p style="text-align:center; font-size:0.7rem; color:#a0aec0; margin-top:20px; cursor:pointer;" onclick="localStorage.clear(); location.reload();">🔄 Limpar tudo e recomeçar</p>
+        <button onclick="gerarRelatorio()" style="width:100%; padding:22px; border:none; border-radius:20px; background:#1e3a8a; color:white; font-weight:800; cursor:pointer; margin-top:10px;">📋 RELATÓRIO WHATSAPP</button>
     </div>
 </div>
 
 <script>
-    // Inicialização segura das variáveis
-    let membros = JSON.parse(localStorage.getItem('membrosJuatuba')) || [];
-    let historico = JSON.parse(localStorage.getItem('histJuatuba')) || {};
-    let memoriaMsg = JSON.parse(localStorage.getItem('memoriaMsgJuatuba')) || {};
-    let linkUrl = localStorage.getItem('linkPlanilhaJuatuba') || "";
+    let membros = [];
+    let hst = JSON.parse(localStorage.getItem('m_hst')) || {};
+    const frases = ["O Senhor te ama! ✨", "Sua presença é uma bênção! 🙌", "Não temas, Deus é contigo. 🕊️"];
 
-    // Textos de Resgate e Inspiração
-    const textosInspiracao = [
-        " 'O Senhor conhece os seus medos e as suas esperanças. Ele te ama!' (Conferência Geral) ",
-        " 'Deus não nos ama porque somos bons, mas porque Ele é bom.' ",
-        " 'A fé não é saber o que o futuro reserva, mas saber Quem segura o futuro.' ",
-        " 'Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus.' (Isaías 41:10) "
-    ];
-
-    // Se houver link, tenta carregar e mostra o conteúdo
-    if(linkUrl) {
-        document.getElementById('setupArea').style.display = 'none';
-        document.getElementById('mainContent').style.display = 'block';
-        autoSync();
-    }
-
-    async function autoSync() {
-        if(!linkUrl) return;
-        try {
-            const r = await fetch(linkUrl);
-            const d = await r.text();
-            const linhas = d.split('\n').slice(1);
-            membros = linhas.map(l => {
-                const c = l.split(',');
-                return { 
-                    nome: c[0]?.trim().replace(/"/g,''), 
-                    tel: c[1]?.trim().replace(/"/g,''), 
-                    genero: c[2]?.trim().toUpperCase(), 
-                    idade: parseInt(c[4]) || 0 
-                };
-            }).filter(m => m.nome && m.tel);
-            localStorage.setItem('membrosJuatuba', JSON.stringify(membros));
-            renderSelect();
-        } catch(e) {
-            alert("Erro ao ler a planilha. Verifique se o link está correto.");
-            document.getElementById('setupArea').style.display = 'block';
-        }
-    }
-
-    function salvarLink() {
+    async function forcarSincronizacao() {
         const url = document.getElementById('csvUrl').value;
-        if(url.includes("http")) {
-            localStorage.setItem('linkPlanilhaJuatuba', url);
-            location.reload();
-        } else {
-            alert("Por favor, insira um link válido.");
-        }
-    }
+        const status = document.getElementById('status-msg');
+        status.innerText = "⏳ Lendo planilha...";
+        
+        try {
+            // Proxy para evitar erro de travamento (CORS)
+            const resp = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
+            const data = await resp.json();
+            const csv = data.contents;
+            
+            const linhas = csv.split(/\r?\n/).filter(l => l.trim() !== "");
+            membros = linhas.slice(1).map(l => {
+                const c = l.split(csv.includes(';') ? ';' : ',');
+                return { n: c[0].replace(/"/g,''), t: c[1], g: c[2]?.toUpperCase(), i: parseInt(c[4]) || 0 };
+            });
 
-    function sortearUnico(nome, tipo) {
-        let key = nome + tipo;
-        let usadaIdx = memoriaMsg[key] || -1;
-        let novaIdx;
-        do { novaIdx = Math.floor(Math.random() * textosInspiracao.length); } while (novaIdx === usadaIdx);
-        memoriaMsg[key] = novaIdx;
-        localStorage.setItem('memoriaMsgJuatuba', JSON.stringify(memoriaMsg));
-        return textosInspiracao[novaIdx];
-    }
-
-    function enviar(tipo) {
-        const idx = document.getElementById('selectMembro').value;
-        const m = membros[idx];
-        let msg = "";
-
-        if(tipo === 'presenca') {
-            historico[m.nome] = "PRESENTE";
-            alert("✅ Presença registrada!");
-        } else {
-            const texto = sortearUnico(m.nome, tipo);
-            if(tipo === 'biblica' || tipo === 'inspira') {
-                historico[m.nome] = "PRESENTE";
-                msg = `Oi ${m.nome}! 😊%0A%0AFicamos muito felizes com a sua presença hoje no Ramo Juatuba!%0A%0A✨ *Uma mensagem para você:*%0A${texto}%0A%0ATenha um domingo abençoado! 🕊️`;
-            } else if(tipo === 'falta') {
-                historico[m.nome] = "FALTANTE";
-                msg = `Oi ${m.nome}! ❤️%0A%0ASentimos a sua falta hoje no Ramo Juatuba. Esperamos que esteja tudo bem!%0A%0AQueria partilhar algo especial contigo:%0A%0A" ${texto} "%0A%0ASaiba que é muito importante para nós. Esperamos ver-te em breve! 🫂`;
+            if(membros.length > 0) {
+                document.getElementById('setupArea').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                renderLista();
             }
-            window.open(`https://wa.me/${m.tel}?text=${msg}`);
-        }
-
-        localStorage.setItem('histJuatuba', JSON.stringify(historico));
-        renderSelect();
-        document.getElementById('membroFoco').style.display = 'none';
-        document.getElementById('selectMembro').value = "";
+        } catch(e) { status.innerText = "❌ Erro ao ler. Verifique a internet."; }
     }
 
-    function filtrar() { renderSelect(); document.getElementById('membroFoco').style.display='none'; }
-
-    function renderSelect() {
+    function renderLista() {
         const s = document.getElementById('selectMembro');
         const f = document.getElementById('filtroOrg').value;
-        s.innerHTML = '<option value="">Escolha um nome...</option>';
-        
+        s.innerHTML = '<option value="">Selecione...</option>';
         membros.filter(m => {
-            if(f === 'Quorum') return m.genero === "H" && m.idade >= 18;
-            if(f === 'Sociedade') return m.genero === "M" && m.idade >= 18;
-            if(f === 'Jovens') return m.idade >= 12 && m.idade <= 17;
+            if(f==='Quorum') return m.g==='H' && m.i>=18;
+            if(f==='Sociedade') return m.g==='M' && m.i>=18;
+            if(f==='Jovens') return m.i>=12 && m.i<=17;
             return true;
-        }).sort((a,b) => a.nome.localeCompare(b.nome)).forEach(m => {
-            let opt = document.createElement('option');
-            opt.value = membros.indexOf(m);
-            opt.textContent = (historico[m.nome] ? "✅ " : "") + m.nome;
-            s.appendChild(opt);
+        }).sort((a,b)=>a.n.localeCompare(b.n)).forEach(m => {
+            let o = document.createElement('option');
+            o.value = membros.indexOf(m);
+            o.innerText = (hst[m.n] ? "✅ " : "") + m.n;
+            s.appendChild(o);
         });
-
-        const fcount = Object.keys(historico).length;
-        const total = membros.length;
-        document.getElementById('bar').style.width = total > 0 ? (fcount/total)*100 + "%" : "0%";
-        document.getElementById('barTxt').textContent = `${fcount}/${total}`;
+        document.getElementById('barTxt').innerText = `${Object.keys(hst).length}/${membros.length}`;
+        document.getElementById('bar').style.width = (Object.keys(hst).length/membros.length*100) + "%";
     }
 
     function mostrarMembro() {
-        const idx = document.getElementById('selectMembro').value;
-        if(idx) {
-            document.getElementById('dispNome').textContent = membros[idx].nome;
-            document.getElementById('membroFoco').style.display = 'block';
-        }
+        const m = membros[document.getElementById('selectMembro').value];
+        if(m) { document.getElementById('dispNome').innerText = m.n; document.getElementById('membroFoco').style.display = 'block'; }
     }
 
-    function copiarRelatorio() {
-        let t = `*RELATÓRIO JUATUBA - ${new Date().toLocaleDateString()}*%0A%0A`;
-        for(let n in historico) t += `[${historico[n]}] - ${n}%0A`;
+    function registrar(tipo) {
+        const m = membros[document.getElementById('selectMembro').value];
+        const sorteio = frases[Math.floor(Math.random()*frases.length)];
+        if(tipo === 'presenca') { hst[m.n] = "PRESENTE"; }
+        else if(tipo === 'msg' || tipo === 'insp') {
+            hst[m.n] = "PRESENTE";
+            window.open(`https://wa.me/${m.t}?text=Oi ${m.n}! 😊 ${sorteio}`);
+        } else {
+            hst[m.n] = "FALTANTE";
+            window.open(`https://wa.me/${m.t}?text=Oi ${m.n}! ❤️ Sentimos sua falta!`);
+        }
+        localStorage.setItem('m_hst', JSON.stringify(hst));
+        renderLista();
+        document.getElementById('membroFoco').style.display = 'none';
+    }
+
+    function gerarRelatorio() {
+        let t = `*RELATÓRIO JUATUBA*%0A`;
+        for(let n in hst) t += `[${hst[n]}] - ${n}%0A`;
         window.open(`https://wa.me/?text=${t}`);
     }
 </script>
