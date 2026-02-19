@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ministração Digital</title>
+    <style>
+        :root { --primary: #556b2f; --secondary: #b8860b; --bg: #fdfdfb; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #333; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); width: 100%; max-width: 500px; margin-bottom: 20px; }
+        .header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+        .membro-item { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .btn { padding: 10px 15px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
+        .btn-p { background: #25D366; color: white; }
+        .btn-f { background: #f3f3f3; color: #333; }
+        .btn-backup { background: var(--secondary); color: white; width: 100%; margin-top: 10px; }
+        
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 100; }
+        .modal-content { background: white; padding: 25px; border-radius: 20px; width: 85%; max-width: 400px; }
+        .sugestao-card { background: #f9f9f9; padding: 15px; border-radius: 12px; margin-top: 10px; cursor: pointer; border: 1.5px solid #eee; }
+        .sugestao-card:hover { border-color: var(--secondary); background: #fffcf5; }
+        .nota-badge { font-size: 0.75em; color: var(--secondary); font-style: italic; display: block; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="header">
+            <h2 style="margin:0">Ministração ✨</h2>
+            <small>Gestão de Cuidado e Presença</small>
+        </div>
+        <input type="text" id="nome" placeholder="Nome do Membro" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:8px;">
+        <input type="text" id="tel" placeholder="WhatsApp (ex: 351912345678)" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:8px;">
+        <button class="btn" style="background:var(--primary); color:white; width:100%" onclick="adicionarMembro()">+ Adicionar Membro</button>
+    </div>
+
+    <div class="card">
+        <h3>Lista Ativa 🙏</h3>
+        <div id="listaMembros"></div>
+        <button class="btn btn-backup" onclick="exportarDados()">💾 Exportar Backup para Texto</button>
+    </div>
+
+    <div id="modal">
+        <div class="modal-content">
+            <h3>Escolha a Mensagem 🌱</h3>
+            <div id="opcoesMensagens"></div>
+            <button class="btn" style="width:100%; margin-top:15px; background:#ccc" onclick="fecharModal()">Fechar</button>
+        </div>
+    </div>
+
+<script>
+    let membros = JSON.parse(localStorage.getItem('membrosMinistracao')) || [];
+
+    const bibliotecaIA = {
+        presenca: [
+            "Olá, {nome}! ✨\n\nTua presença hoje trouxe uma luz especial. 🌱{nota}",
+            "Oi, {nome}! 🙌\n\nFiquei feliz por estares connosco. Tua jornada inspira-nos! ❤️{nota}"
+        ],
+        falta: [
+            "Olá, {nome}... ❤️\n\nSentimos a tua falta hoje. Esperamos ver-te em breve! ✨{nota}",
+            "Oi, {nome}! 🌱\n\nPassando para dizer que nos lembramos de ti. Tudo bem? 🙏{nota}"
+        ]
+    };
+
+    function adicionarMembro() {
+        const nome = document.getElementById('nome').value;
+        const tel = document.getElementById('tel').value;
+        if(nome && tel) {
+            membros.push({ nome, tel, p: 0, f: 0, nota: "" });
+            salvar();
+            document.getElementById('nome').value = '';
+            document.getElementById('tel').value = '';
+        }
+    }
+
+    function adicionarNota(i) {
+        const n = prompt("Motivo de oração para " + membros[i].nome, membros[i].nota);
+        if(n !== null) { membros[i].nota = n; salvar(); }
+    }
+
+    function abrirSugestoes(i, tipo) {
+        const m = membros[i];
+        const container = document.getElementById('opcoesMensagens');
+        container.innerHTML = "";
+        
+        bibliotecaIA[tipo].forEach(base => {
+            let nTexto = m.nota ? `\n\nEstou a interceder por: ${m.nota}. 🙏` : "";
+            let final = base.replace("{nome}", m.nome).replace("{nota}", nTexto);
+            let card = document.createElement('div');
+            card.className = 'sugestao-card';
+            card.innerHTML = final.replace(/\n/g, '<br>');
+            card.onclick = () => {
+                if(tipo === 'presenca') membros[i].p++; else membros[i].f++;
+                salvar();
+                window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent(final)}`, '_blank');
+                fecharModal();
+            };
+            container.appendChild(card);
+        });
+        document.getElementById('modal').style.display = 'flex';
+    }
+
+    function exportarDados() {
+        const dados = JSON.stringify(membros);
+        alert("Copie este código para guardar seu backup:\n\n" + dados);
+        console.log(dados);
+    }
+
+    function fecharModal() { document.getElementById('modal').style.display = 'none'; }
+    function salvar() { localStorage.setItem('membrosMinistracao', JSON.stringify(membros)); renderizar(); }
+
+    function renderizar() {
+        const lista = document.getElementById('listaMembros');
+        lista.innerHTML = "";
+        membros.forEach((m, i) => {
+            lista.innerHTML += `
+                <div class="membro-item">
+                    <div onclick="adicionarNota(${i})" style="cursor:pointer; flex:1">
+                        <strong>${m.nome}</strong>
+                        <span class="nota-badge">${m.nota ? '📝 ' + m.nota : '+ Nota de oração'}</span>
+                    </div>
+                    <div>
+                        <button class="btn btn-p" onclick="abrirSugestoes(${i}, 'presenca')">P</button>
+                        <button class="btn btn-f" onclick="abrirSugestoes(${i}, 'falta')">F</button>
+                    </div>
+                </div>`;
+        });
+    }
+    renderizar();
+</script>
+</body>
+</html>
