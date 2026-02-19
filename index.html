@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ministração - Google Sync</title>
+    <style>
+        :root { --primary: #556b2f; --secondary: #b8860b; --bg: #fdfdfb; }
+        body { font-family: sans-serif; background: var(--bg); display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); width: 100%; max-width: 500px; margin-bottom: 20px; }
+        input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .btn { padding: 10px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; width: 100%; margin-top: 5px; }
+        .btn-sync { background: #4285F4; color: white; }
+        .membro-item { padding: 12px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 25px; border-radius: 20px; width: 85%; max-width: 400px; }
+        .sugestao-card { background: #f9f9f9; padding: 15px; border-radius: 12px; margin-top: 10px; cursor: pointer; border: 1.5px solid #eee; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h3>Sincronizar Google Sheets 📄</h3>
+        <input type="text" id="csvUrl" placeholder="Cole o link do CSV aqui">
+        <button class="btn btn-sync" onclick="importarDoGoogle()">Importar Membros</button>
+        <p style="font-size: 0.7em; color: #666;">O link deve terminar em output=csv</p>
+    </div>
+
+    <div class="card">
+        <h3>Lista Ativa 🙏</h3>
+        <div id="listaMembros"></div>
+    </div>
+
+    <div id="modal">
+        <div class="modal-content">
+            <h3>Mensagem IA 🌱</h3>
+            <div id="opcoesMensagens"></div>
+            <button class="btn" style="background:#ccc" onclick="document.getElementById('modal').style.display='none'">Fechar</button>
+        </div>
+    </div>
+
+<script>
+    let membros = JSON.parse(localStorage.getItem('membrosMinistracao')) || [];
+
+    async function importarDoGoogle() {
+        const url = document.getElementById('csvUrl').value;
+        if(!url) return alert("Cole o link primeiro!");
+
+        try {
+            const response = await fetch(url);
+            const data = await response.text();
+            
+            // Transformar CSV em lista (quebra por linha e depois por vírgula)
+            const linhas = data.split('\n').slice(1); // Ignora o cabeçalho
+            const novosMembros = linhas.map(linha => {
+                const colunas = linha.split(',');
+                return { nome: colunas[0].trim(), tel: colunas[1].trim(), p:0, f:0, nota:"" };
+            }).filter(m => m.nome && m.tel); // Remove linhas vazias
+
+            membros = novosMembros;
+            localStorage.setItem('membrosMinistracao', JSON.stringify(membros));
+            renderizar();
+            alert("Sucesso! " + membros.length + " membros importados.");
+        } catch (error) {
+            alert("Erro ao ler a folha. Verifique se ela foi 'Publicada na Web' como CSV.");
+        }
+    }
+
+    function abrirSugestoes(i, tipo) {
+        const m = membros[i];
+        const container = document.getElementById('opcoesMensagens');
+        container.innerHTML = "";
+        
+        const msgs = {
+            presenca: ["Olá, {nome}! ✨ Que alegria te ver hoje! 🌱", "Oi, {nome}! 🙌 Tua presença foi especial hoje! ❤️"],
+            falta: ["Olá, {nome}... ❤️ Sentimos tua falta!", "Oi, {nome}! 🌱 Tudo bem? Lembramos de ti! 🙏"]
+        };
+
+        msgs[tipo].forEach(texto => {
+            let final = texto.replace("{nome}", m.nome);
+            let card = document.createElement('div');
+            card.className = 'sugestao-card';
+            card.innerHTML = final;
+            card.onclick = () => {
+                window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent(final)}`, '_blank');
+                document.getElementById('modal').style.display = 'none';
+            };
+            container.appendChild(card);
+        });
+        document.getElementById('modal').style.display = 'flex';
+    }
+
+    function renderizar() {
+        const lista = document.getElementById('listaMembros');
+        lista.innerHTML = membros.length ? "" : "<p>Importe membros do Google Sheets acima.</p>";
+        membros.forEach((m, i) => {
+            lista.innerHTML += `
+                <div class="membro-item">
+                    <span><strong>${m.nome}</strong></span>
+                    <div>
+                        <button class="btn" style="background:#25D366; color:white; width:auto" onclick="abrirSugestoes(${i}, 'presenca')">P</button>
+                        <button class="btn" style="background:#f3f3f3; width:auto" onclick="abrirSugestoes(${i}, 'falta')">F</button>
+                    </div>
+                </div>`;
+        });
+    }
+    renderizar();
+</script>
+</body>
+</html>
