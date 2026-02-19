@@ -3,84 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liderança Juatuba</title>
+    <title>Ministração Juatuba</title>
     <style>
         :root { --primary: #1a2e44; --secondary: #b8860b; --accent: #2ecc71; --danger: #e74c3c; --bg: #f4f7f9; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
         .container { width: 100%; max-width: 480px; }
         .card { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.05); margin-bottom: 15px; }
         
-        /* Dashboard */
-        .progress-container { width: 100%; background: #edf2f7; border-radius: 10px; height: 12px; margin: 10px 0; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--accent); width: 0%; transition: 0.8s ease; }
-        
-        /* Filtros */
-        .filtro-container { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
-        .btn-filtro { background: #edf2f7; border: none; padding: 10px 18px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; cursor: pointer; white-space: nowrap; }
-        .btn-filtro.ativo { background: var(--primary); color: white; }
-        .btn-filtro.alerta { color: var(--danger); border: 1px solid var(--danger); }
+        .progress-label { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+        .progress-container { width: 100%; background: #edf2f7; border-radius: 10px; height: 10px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent); width: 0%; transition: 0.8s; }
 
-        select { width: 100%; padding: 16px; border-radius: 14px; border: 2.5px solid #edf2f7; font-size: 1rem; }
+        label { display: block; font-size: 0.7rem; font-weight: bold; color: #a0aec0; margin: 15px 0 5px 0; text-transform: uppercase; }
+        select { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #edf2f7; font-size: 1rem; color: var(--primary); background: #fff; cursor: pointer; }
 
-        /* Card de Foco */
-        .membro-foco { display: none; text-align: center; border-top: 2px solid #f7fafc; padding-top: 20px; margin-top: 20px; animation: slideUp 0.3s; }
+        .membro-foco { display: none; text-align: center; border-top: 2px solid #f7fafc; padding-top: 20px; margin-top: 20px; animation: fadeIn 0.3s; }
         .resgate { border: 3px solid var(--danger); background: #fff5f5; border-radius: 15px; padding: 15px; }
         .nota-fe { background: #fff9db; border: 1px solid #fcc419; padding: 12px; border-radius: 12px; font-size: 0.85rem; color: #856404; margin: 10px 0; text-align: left; }
 
         .grid-acoes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
-        .btn-acao { border: none; border-radius: 15px; padding: 18px; font-weight: 800; cursor: pointer; }
+        .btn-acao { border: none; border-radius: 12px; padding: 15px; font-weight: 800; cursor: pointer; font-size: 0.8rem; }
         .btn-p { background: var(--accent); color: white; }
         .btn-f { background: var(--danger); color: white; }
         
-        .btn-report { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 15px; font-weight: bold; margin-top: 10px; cursor: pointer; }
-        .btn-reset { background: none; border: none; color: #a0aec0; font-size: 0.7rem; cursor: pointer; margin-top: 20px; text-decoration: underline; }
-
-        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .btn-report { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 15px; font-weight: bold; margin-top: 15px; cursor: pointer; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="header" style="text-align:center; margin-bottom:20px;">
-            <h1 style="font-size:1.2rem; color:var(--primary); margin:0;">REDE DE CUIDADO JUATUBA</h1>
-            <div id="barTxt" style="font-size:0.75rem; font-weight:bold; margin-top:10px;">0/0 Cuidados</div>
+            <h1 style="font-size:1.1rem; color:var(--primary); margin:0;">REDES DE CUIDADO JUATUBA</h1>
+        </div>
+
+        <div class="card">
+            <div class="progress-label"><span>Progresso</span><span id="barTxt">0/0</span></div>
             <div class="progress-container"><div id="bar" class="progress-bar"></div></div>
         </div>
 
         <div class="card">
-            <div class="filtro-container">
-                <button class="btn-filtro ativo" onclick="filtrar('Todos')">Todos</button>
-                <button class="btn-filtro" onclick="filtrar('Quórum')">Quórum</button>
-                <button class="btn-filtro" onclick="filtrar('Sociedade')">Sociedade</button>
-                <button class="btn-filtro alerta" onclick="filtrar('Alerta')">🚨 Alerta</button>
-            </div>
+            <label>1. Filtrar Organização</label>
+            <select id="filtroOrg" onchange="filtrar()">
+                <option value="Todos">Todas as Organizações</option>
+                <option value="Quórum">Quórum de Élderes</option>
+                <option value="Sociedade">Sociedade de Socorro</option>
+                <option value="Alerta">🚨 Membros em Alerta</option>
+            </select>
 
+            <label>2. Selecionar Membro</label>
             <select id="selectMembro" onchange="mostrarMembro()">
-                <option value="">Selecione um membro...</option>
+                <option value="">Escolha um nome...</option>
             </select>
 
             <div id="membroFoco" class="membro-foco">
                 <div id="alertaBadge"></div>
-                <span id="dispNome" style="font-size:1.5rem; font-weight:800; color:var(--primary);"></span>
+                <span id="dispNome" style="font-size:1.4rem; font-weight:800; color:var(--primary);"></span>
                 <div id="notaFeDisplay" class="nota-fe"></div>
                 
                 <div class="grid-acoes">
-                    <button class="btn-acao btn-p" onclick="enviar('presenca')">PRESENTE</button>
-                    <button class="btn-acao btn-f" onclick="enviar('falta')">FALTANTE</button>
+                    <button class="btn-acao btn-p" onclick="enviar('presenca')">MARCAR<br>PRESENÇA ✅</button>
+                    <button class="btn-acao btn-f" onclick="enviar('falta')">MENSAGEM<br>DE FALTA ❤️</button>
                 </div>
                 
-                <button onclick="adicionarNotaFe()" style="background:none; border:none; color:var(--secondary); font-size:0.75rem; cursor:pointer; margin-top:15px; text-decoration:underline;">
-                    📝 Registrar necessidade ou oração
+                <button onclick="adicionarNotaFe()" style="background:none; border:none; color:var(--secondary); font-size:0.7rem; cursor:pointer; margin-top:15px; text-decoration:underline;">
+                    📝 Registrar nota de oração/cuidado
                 </button>
             </div>
         </div>
         
         <button onclick="copiarRelatorio()" class="btn-report">📋 COPIAR RELATÓRIO DO DIA</button>
-        <center><button onclick="limparDomingo()" class="btn-reset">🔄 Iniciar Novo Domingo</button></center>
+        <center><button onclick="limparDomingo()" style="background:none; border:none; color:#a0aec0; font-size:0.7rem; margin-top:20px; cursor:pointer;">🔄 Novo Domingo</button></center>
 
         <details style="text-align:center; margin-top:30px; color:#a0aec0; font-size:0.7rem;">
-            <summary>Configurações de Planilha</summary>
-            <input type="text" id="csvUrl" placeholder="Link CSV" style="width:80%; margin-top:10px; padding:8px;">
+            <summary>Configurações</summary>
+            <input type="text" id="csvUrl" placeholder="Link CSV da Planilha" style="width:80%; margin:10px 0; padding:8px;">
             <button onclick="salvarLink()">Sincronizar</button>
         </details>
     </div>
@@ -89,7 +86,6 @@
     let membros = JSON.parse(localStorage.getItem('membrosJuatuba')) || [];
     let historico = JSON.parse(localStorage.getItem('histJuatuba')) || {};
     let linkUrl = localStorage.getItem('linkPlanilhaJuatuba') || "";
-    let filtroAtual = "Todos";
 
     if(linkUrl) autoSync();
 
@@ -124,20 +120,21 @@
         return Math.floor((hoje - d) / (1000*60*60*24));
     }
 
-    function filtrar(org) {
-        filtroAtual = org;
-        document.querySelectorAll('.btn-filtro').forEach(b => b.classList.toggle('ativo', b.innerText.includes(org)));
+    function filtrar() {
         renderSelect();
         document.getElementById('membroFoco').style.display = 'none';
     }
 
     function renderSelect() {
         const s = document.getElementById('selectMembro');
+        const filtro = document.getElementById('filtroOrg').value;
         s.innerHTML = '<option value="">-- Selecione --</option>';
+        
         const lista = membros.filter(m => {
-            if(filtroAtual === 'Alerta') return calcularDias(m.ultima) > 14;
-            return filtroAtual === 'Todos' || m.org.includes(filtroAtual);
+            if(filtro === 'Alerta') return calcularDias(m.ultima) > 14;
+            return filtro === 'Todos' || m.org.includes(filtro);
         });
+
         lista.sort((a,b) => a.nome.localeCompare(b.nome)).forEach(m => {
             const status = historico[m.nome] ? "✅ " : (calcularDias(m.ultima) > 14 ? "🚨 " : "");
             const opt = document.createElement('option');
@@ -156,11 +153,11 @@
         const isAlerta = calcularDias(m.ultima) > 14;
         
         document.getElementById('dispNome').textContent = m.nome;
-        document.getElementById('notaFeDisplay').innerHTML = m.notaFe ? `<b>🙏 Oração/Necessidade:</b> ${m.notaFe}` : "";
+        document.getElementById('notaFeDisplay').innerHTML = m.notaFe ? `<b>🙏 Nota:</b> ${m.notaFe}` : "";
         document.getElementById('notaFeDisplay').style.display = m.notaFe ? 'block' : 'none';
         
         box.className = isAlerta ? "membro-foco resgate" : "membro-foco";
-        document.getElementById('alertaBadge').innerHTML = isAlerta ? `<b style="color:var(--danger); font-size:0.7rem;">🚨 RESGATE PRIORITÁRIO</b>` : "";
+        document.getElementById('alertaBadge').innerHTML = isAlerta ? `<b style="color:var(--danger); font-size:0.7rem;">🚨 EM ALERTA (RESGATE)</b>` : "";
         box.style.display = 'block';
     }
 
@@ -168,19 +165,28 @@
         const idx = document.getElementById('selectMembro').value;
         const m = membros[idx];
         const dias = calcularDias(m.ultima);
-        let msg = tipo === 'presenca' ? 
-            `Olá ${m.nome}! Ficamos muito felizes em te ver hoje no Ramo Juatuba! ✨` : 
-            (dias > 14 ? `Olá ${m.nome}. ❤️ Sentimos muito sua falta. Você é muito importante para nós e estamos aqui para o que precisar!` : `Oi ${m.nome}, sentimos sua falta hoje no Ramo. Tudo bem?`);
-        
-        historico[m.nome] = tipo.toUpperCase();
-        localStorage.setItem('histJuatuba', JSON.stringify(historico));
-        window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent(msg)}`);
-        renderSelect();
+
+        if(tipo === 'presenca') {
+            historico[m.nome] = "PRESENTE";
+            localStorage.setItem('histJuatuba', JSON.stringify(historico));
+            alert(`${m.nome} marcado como Presente!`);
+            renderSelect();
+            document.getElementById('membroFoco').style.display = 'none';
+        } else {
+            let msg = dias > 14 ? 
+                `Olá ${m.nome}. ❤️ Sentimos muito sua falta hoje. Você é precioso para nós e estamos aqui para o que precisar!` : 
+                `Oi ${m.nome}, sentimos sua falta no Ramo hoje. Tudo bem?`;
+            
+            historico[m.nome] = "FALTANTE";
+            localStorage.setItem('histJuatuba', JSON.stringify(historico));
+            window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent(msg)}`);
+            renderSelect();
+        }
     }
 
     function adicionarNotaFe() {
         const idx = document.getElementById('selectMembro').value;
-        const n = prompt("Qual a necessidade ou pedido de oração?", membros[idx].notaFe);
+        const n = prompt("Nota de cuidado para " + membros[idx].nome, membros[idx].notaFe);
         if(n !== null) { membros[idx].notaFe = n; localStorage.setItem('membrosJuatuba', JSON.stringify(membros)); mostrarMembro(); }
     }
 
@@ -189,16 +195,16 @@
         const t = membros.length;
         const p = t > 0 ? (f/t)*100 : 0;
         document.getElementById('bar').style.width = p + "%";
-        document.getElementById('barTxt').textContent = `${f} de ${t} contatados`;
+        document.getElementById('barTxt').textContent = `${f}/${t} Concluídos`;
     }
 
     function copiarRelatorio() {
-        let t = `*Relatório Juatuba - ${new Date().toLocaleDateString()}*\n\n`;
+        let t = `*RELATÓRIO JUATUBA - ${new Date().toLocaleDateString()}*\n\n`;
         for(let n in historico) t += `[${historico[n]}] - ${n}\n`;
         navigator.clipboard.writeText(t); alert("Copiado!");
     }
 
-    function limparDomingo() { if(confirm("Limpar ✅ para hoje?")) { historico = {}; localStorage.setItem('histJuatuba', "{}"); location.reload(); } }
+    function limparDomingo() { if(confirm("Limpar os ✅ para hoje?")) { historico = {}; localStorage.setItem('histJuatuba', "{}"); location.reload(); } }
     function salvarLink() { localStorage.setItem('linkPlanilhaJuatuba', document.getElementById('csvUrl').value); location.reload(); }
 </script>
 </body>
