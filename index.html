@@ -3,141 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ministrando com Amor - Ramo Juatuba</title>
+    <title>Juatuba - Ministrando com Amor</title>
     <style>
-        :root { --grad: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); --accent: #10b981; --bg: #f8fafc; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); margin: 0; padding: 0; min-height: 100vh; color: #1e293b; }
-        .header-main { background: var(--grad); color: white; padding: 45px 20px; border-radius: 0 0 35px 35px; text-align: center; box-shadow: 0 10px 25px rgba(30, 58, 138, 0.15); margin-bottom: 25px; }
-        .container { width: 92%; max-width: 450px; margin: 0 auto; padding-bottom: 40px; }
-        .card { background: white; border-radius: 24px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 20px; border: 1px solid #f1f5f9; }
-        .btn-acao { border: none; border-radius: 18px; padding: 20px 10px; font-weight: 700; cursor: pointer; font-size: 0.75rem; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
-        .btn-p { background: #10b981; } .btn-msg { background: #3b82f6; } .btn-insp { background: #f59e0b; grid-column: span 2; }
-        .btn-falta { background: #ef4444; grid-column: span 2; padding: 22px; margin-top: 10px; }
-        label { font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px; display: block; }
-        select { width: 100%; padding: 16px; border-radius: 16px; border: 2px solid #f1f5f9; background: #f8fafc; font-size: 1rem; color: #1e293b; outline: none; }
-        .progress-container { background: #e2e8f0; height: 12px; border-radius: 10px; overflow: hidden; }
-        .progress-bar { height: 100%; background: #10b981; transition: 1s; width: 0%; }
-        #status-msg { font-size: 0.8rem; text-align: center; margin-top: 10px; font-weight: bold; }
+        :root { 
+            --primaria: #1e40af; 
+            --gradiente: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
+            --sucesso: #059669; 
+            --fundo: #f1f5f9; 
+            --perigo: #dc2626;
+            --texto: #1e293b;
+        }
+        
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--fundo); margin: 0; padding: 15px; color: var(--texto); }
+
+        .header { 
+            background: var(--gradiente); 
+            color: white; padding: 35px 20px; text-align: center; 
+            border-radius: 0 0 30px 30px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+        .header h1 { margin: 0; font-size: 1.6rem; font-weight: 800; }
+        .ovelha-box { 
+            display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; 
+            font-size: 0.9rem; background: rgba(255,255,255,0.2);
+            padding: 8px 18px; border-radius: 50px; font-weight: 500;
+        }
+
+        .container { max-width: 500px; margin: 0 auto; }
+        .card { 
+            background: white; border-radius: 20px; padding: 22px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px;
+        }
+
+        .card-title { 
+            display: flex; align-items: center; gap: 8px; font-weight: 700; 
+            color: #64748b; margin-bottom: 15px; font-size: 0.75rem; text-transform: uppercase;
+        }
+
+        select, textarea, input[type="date"] { 
+            width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #e2e8f0; 
+            background: #fff; font-size: 1rem; outline: none; box-sizing: border-box;
+        }
+
+        .grid-acoes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+        .btn { border: none; border-radius: 12px; padding: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.8rem; }
+        
+        .btn-p { background: #ecfdf5; color: #065f46; }
+        .btn-m { background: var(--primaria); color: white; }
+        .btn-f { background: #fef2f2; color: #991b1b; grid-column: span 2; }
+        .btn-undo { background: #f8fafc; color: #94a3b8; grid-column: span 2; font-size: 0.7rem; }
+
+        /* DASHBOARD ITEM */
+        .dash-item { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 12px; background: #fff; border-radius: 12px; margin-bottom: 8px;
+            border: 1px solid #fee2e2; border-left: 5px solid var(--perigo);
+        }
+        .alerta-faltas { background: var(--perigo); color: white; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; }
+
+        .barra-bg { background: #e2e8f0; height: 8px; border-radius: 10px; overflow: hidden; margin: 12px 0; }
+        .barra-fill { background: var(--sucesso); height: 100%; width: 0%; transition: 1s ease; }
     </style>
 </head>
 <body>
 
+<div class="header">
+    <h1>Ramo Juatuba ⛪</h1>
+    <div class="ovelha-box">🐑 Ministrando com Amor</div>
+</div>
+
 <div class="container">
-    <div class="header-main">
-        <h1 style="margin:0; font-size: 1.8rem;">Ministrando com Amor ⛪</h1>
-        <p style="margin:8px 0 0; opacity:0.9;">Ramo Juatuba • Gestão Pastoral</p>
+    <div id="setup" class="card">
+        <div class="card-title">✨ Configuração Inicial</div>
+        <textarea id="dadosIn" rows="3" placeholder="Cole aqui: Nome | Telefone | Idade | Gênero"></textarea>
+        <button class="btn btn-m" style="width:100%; margin-top:15px;" onclick="importar()">CONSTRUIR LISTA 🚀</button>
     </div>
 
-    <div id="setupArea" class="card">
-        <h4 style="margin:0 0 8px; color:#1e3a8a;">⚙️ Sincronização de Dados</h4>
-        <input type="text" id="csvUrl" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRTopE61dzT2l8RVYiJwDFhotBoXuSvN_R95Rl5W26rSi7GDlfHtxSmyZxKloNMLod4UYDLfKd4eSTn/pub?output=csv" style="width:100%; padding:12px; border-radius:10px; border:1px solid #ddd; margin-bottom:15px;">
-        <button onclick="forcarSincronizacao()" style="width:100%; padding:16px; background:#3b82f6; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer;">CARREGAR IRMÃOS AGORA</button>
-        <div id="status-msg"></div>
-    </div>
-
-    <div id="mainContent" style="display:none;">
+    <div id="app" style="display:none;">
         <div class="card">
-            <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-weight:800; font-size:0.85rem; color:#1e3a8a;">
-                <span>PROGRESSO</span>
-                <span id="barTxt">0/0</span>
+            <div class="card-title">📅 Registro de Domingo</div>
+            <input type="date" id="dataAtual" onchange="render()">
+            <div class="barra-bg"><div id="barra" class="barra-fill"></div></div>
+            <div style="display:flex; justify-content:space-between; font-size:0.75rem; font-weight:700;">
+                <span style="color:#64748b">MINISTRANDO COM AMOR</span>
+                <span id="txtProg" style="color:var(--sucesso)">0/0</span>
             </div>
-            <div class="progress-container"><div id="bar" class="progress-bar"></div></div>
         </div>
 
         <div class="card">
-            <label>Filtrar Organização</label>
-            <select id="filtroOrg" onchange="renderLista()"><option value="Todos">Todos os Membros</option><option value="Quorum">Quórum</option><option value="Sociedade">Sociedade</option><option value="Jovens">Jovens</option></select>
-            <label style="margin-top:20px;">Localizar Irmão(ã)</label>
-            <select id="selectMembro" onchange="mostrarMembro()"></select>
+            <div class="card-title">👤 Selecionar Membro</div>
+            <select id="filtroOrg" onchange="render()">
+                <option value="Todos">👥 Todos</option>
+                <option value="Sociedade">🌸 Sociedade</option>
+                <option value="Quórum">👔 Quórum</option>
+                <option value="ORM">🎒 Jovens</option>
+                <option value="Primária">🧸 Primária</option>
+            </select>
+            <div style="margin-top:10px;"></div>
+            <select id="lista" onchange="selecionar()"></select>
 
-            <div id="membroFoco" style="display:none; margin-top:30px; text-align:center; border-top:2px solid #f1f5f9; padding-top:25px;">
-                <div id="dispNome" style="font-size:1.7rem; font-weight:900; color:#1e3a8a; margin-bottom:25px;"></div>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-                    <button class="btn-acao btn-p" onclick="registrar('presenca')">✅ PRESENÇA</button>
-                    <button class="btn-acao btn-msg" onclick="registrar('msg')">📖 ESCRITURA</button>
-                    <button class="btn-acao btn-insp" onclick="registrar('insp')">✨ CONFERÊNCIA</button>
-                    <button class="btn-acao btn-falta" onclick="registrar('falta')">❤️ RESGATE</button>
+            <div id="foco" style="display:none; text-align:center; padding-top:20px;">
+                <span id="nomeFoco" style="font-size:1.2rem; font-weight:800; color:var(--primaria);"></span><br>
+                <div class="grid-acoes">
+                    <button class="btn btn-p" onclick="registrar('P_SIL')">PRESENÇA SILENCIOSA</button>
+                    <button class="btn btn-m" onclick="registrar('MSG_P')">📖 CELEBRAR</button>
+                    <button class="btn btn-f" onclick="registrar('FAL')">❤️ RESGATAR COM AMOR</button>
+                    <button id="btnUndo" class="btn btn-undo" onclick="desfazer()">↩️ CORRIGIR ERRO</button>
                 </div>
             </div>
         </div>
-        <button onclick="gerarRelatorio()" style="width:100%; padding:22px; border:none; border-radius:20px; background:#1e3a8a; color:white; font-weight:800; cursor:pointer; margin-top:10px;">📋 RELATÓRIO WHATSAPP</button>
+
+        <div class="card">
+            <div class="card-title">📊 Mural de Atenção (2+ Faltas)</div>
+            <div id="dashLista"></div>
+            <button class="btn btn-m" style="width:100%; margin-top:20px; background: #64748b;" onclick="exportarCSV()">📥 EXPORTAR HISTÓRICO</button>
+        </div>
     </div>
 </div>
 
 <script>
-    let membros = [];
-    let hst = JSON.parse(localStorage.getItem('m_hst')) || {};
-    const frases = ["O Senhor te ama! ✨", "Sua presença é uma bênção! 🙌", "Não temas, Deus é contigo. 🕊️"];
+    let db = JSON.parse(localStorage.getItem('juatuba_db')) || [];
+    let hTotal = JSON.parse(localStorage.getItem('juatuba_hist_total')) || [];
+    document.getElementById('dataAtual').value = new Date().toISOString().split('T')[0];
+    const icons = { "Sociedade": "🌸", "Quórum": "👔", "ORM": "🎒", "Primária": "🧸" };
 
-    async function forcarSincronizacao() {
-        const url = document.getElementById('csvUrl').value;
-        const status = document.getElementById('status-msg');
-        status.innerText = "⏳ Lendo planilha...";
+    // MENSAGENS FUNDAMENTADAS (TERCEIRA PESSOA)
+    const msgsR = [
+        "O Ramo Juatuba sentiu a falta de um membro especial hoje. Lembramos que em Mosias 18:21, o povo foi ensinado a ter 'seus corações entrelaçados em unidade e amor uns para com os outros'. A ausência foi notada porque cada ovelha é preciosa para o Bom Pastor. Que as bênçãos do céu acompanhem esta semana! ❤️",
+        "A presença de cada santo é o que fortalece nosso corpo. Em D&C 38:27, o Senhor diz: 'Sede um; e se não fordes um, não sois meus'. O Ramo sentiu que uma luz importante não estava conosco hoje. Saiba que existe muito amor e orações sendo oferecidos por cada um. Esperamos ver esse sorriso em breve! 🫂",
+        "Foi lembrado hoje que 'o valor das almas é grande à vista de Deus' (D&C 18:10). O Ramo Juatuba não se sente completo quando um de seus membros está ausente. Como ensinado na última Conferência, somos um povo de convênio que cuida uns dos outros. Que o conforto do Espírito esteja presente neste lar. ✨",
+        "O Ramo sentiu falta da companhia preciosa hoje. Paulo ensinou em 1 Coríntios 12 que todos os membros são necessários para que o corpo seja perfeito. Sem essa presença, nossa adoração foi incompleta. Que o amor do Salvador preencha o coração até o nosso próximo encontro! 🌟"
+    ];
+
+    const msgsC = [
+        "O Ramo Juatuba alegrou-se com a presença hoje! Como diz o Salmo 122:1, 'Alegrei-me quando me disseram: Vamos à casa do Senhor'. Obrigado por compartilhar sua luz conosco e fortalecer nossos convênios. Uma semana abençoada! ❤️"
+    ];
+
+    if(db.length > 0) { document.getElementById('setup').style.display='none'; document.getElementById('app').style.display='block'; render(); }
+
+    function importar() {
+        const txt = document.getElementById('dadosIn').value.trim();
+        db = txt.split('\n').map(l => {
+            const c = l.split(/\t/);
+            const idade = parseInt(c[2]) || 0;
+            const gen = c[3]?.trim().toUpperCase();
+            let org = (idade >= 18) ? (gen === 'M' ? "Sociedade" : "Quórum") : (idade >= 12 ? "ORM" : "Primária");
+            return { nome: c[0], tel: c[1]?.replace(/\D/g,''), org };
+        }).filter(m => m.nome);
+        localStorage.setItem('juatuba_db', JSON.stringify(db));
+        location.reload();
+    }
+
+    function render() {
+        const filtro = document.getElementById('filtroOrg').value;
+        const sel = document.getElementById('lista');
+        const dataSel = document.getElementById('dataAtual').value;
+        sel.innerHTML = '<option value="">Quem buscaremos?</option>';
+        const pHoje = hTotal.filter(h => h.data === dataSel);
         
-        try {
-            // Proxy para evitar erro de travamento (CORS)
-            const resp = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
-            const data = await resp.json();
-            const csv = data.contents;
-            
-            const linhas = csv.split(/\r?\n/).filter(l => l.trim() !== "");
-            membros = linhas.slice(1).map(l => {
-                const c = l.split(csv.includes(';') ? ';' : ',');
-                return { n: c[0].replace(/"/g,''), t: c[1], g: c[2]?.toUpperCase(), i: parseInt(c[4]) || 0 };
-            });
-
-            if(membros.length > 0) {
-                document.getElementById('setupArea').style.display = 'none';
-                document.getElementById('mainContent').style.display = 'block';
-                renderLista();
-            }
-        } catch(e) { status.innerText = "❌ Erro ao ler. Verifique a internet."; }
-    }
-
-    function renderLista() {
-        const s = document.getElementById('selectMembro');
-        const f = document.getElementById('filtroOrg').value;
-        s.innerHTML = '<option value="">Selecione...</option>';
-        membros.filter(m => {
-            if(f==='Quorum') return m.g==='H' && m.i>=18;
-            if(f==='Sociedade') return m.g==='M' && m.i>=18;
-            if(f==='Jovens') return m.i>=12 && m.i<=17;
-            return true;
-        }).sort((a,b)=>a.n.localeCompare(b.n)).forEach(m => {
-            let o = document.createElement('option');
-            o.value = membros.indexOf(m);
-            o.innerText = (hst[m.n] ? "✅ " : "") + m.n;
-            s.appendChild(o);
+        db.filter(m => filtro === 'Todos' || m.org === filtro).sort((a,b)=>a.nome.localeCompare(b.nome)).forEach(m => {
+            const mar = pHoje.find(h => h.nome === m.nome);
+            const opt = document.createElement('option');
+            opt.value = db.indexOf(m);
+            opt.textContent = (mar ? (mar.status === 'PRESENTE' ? "✅ " : "❌ ") : "") + icons[m.org] + " " + m.nome;
+            sel.appendChild(opt);
         });
-        document.getElementById('barTxt').innerText = `${Object.keys(hst).length}/${membros.length}`;
-        document.getElementById('bar').style.width = (Object.keys(hst).length/membros.length*100) + "%";
+
+        const perc = (pHoje.filter(x=>x.status==='PRESENTE').length / db.length * 100) || 0;
+        document.getElementById('barra').style.width = perc + "%";
+        document.getElementById('txtProg').textContent = `${pHoje.filter(x=>x.status==='PRESENTE').length}/${db.length}`;
+        atualizarDashboard();
     }
 
-    function mostrarMembro() {
-        const m = membros[document.getElementById('selectMembro').value];
-        if(m) { document.getElementById('dispNome').innerText = m.n; document.getElementById('membroFoco').style.display = 'block'; }
+    function selecionar() {
+        const i = document.getElementById('lista').value;
+        if(i!=="") { 
+            const m = db[i];
+            document.getElementById('nomeFoco').textContent = icons[m.org] + " " + m.nome; 
+            document.getElementById('foco').style.display='block'; 
+            const mar = hTotal.find(h => h.nome === m.nome && h.data === document.getElementById('dataAtual').value);
+            document.getElementById('btnUndo').style.display = mar ? 'flex' : 'none';
+        } else { document.getElementById('foco').style.display='none'; }
     }
 
-    function registrar(tipo) {
-        const m = membros[document.getElementById('selectMembro').value];
-        const sorteio = frases[Math.floor(Math.random()*frases.length)];
-        if(tipo === 'presenca') { hst[m.n] = "PRESENTE"; }
-        else if(tipo === 'msg' || tipo === 'insp') {
-            hst[m.n] = "PRESENTE";
-            window.open(`https://wa.me/${m.t}?text=Oi ${m.n}! 😊 ${sorteio}`);
-        } else {
-            hst[m.n] = "FALTANTE";
-            window.open(`https://wa.me/${m.t}?text=Oi ${m.n}! ❤️ Sentimos sua falta!`);
+    function registrar(tp) {
+        const dataSel = document.getElementById('dataAtual').value;
+        const m = db[document.getElementById('lista').value];
+        hTotal = hTotal.filter(h => !(h.nome === m.nome && h.data === dataSel));
+        hTotal.push({ nome: m.nome, data: dataSel, status: (tp === 'FAL' ? 'FALTANTE' : 'PRESENTE'), org: m.org });
+        
+        if(tp !== 'P_SIL') {
+            let msg = (tp === 'MSG_P') ? msgsC[Math.floor(Math.random()*msgsC.length)] : msgsR[Math.floor(Math.random()*msgsR.length)];
+            window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent("Olá, " + m.nome + ". " + msg)}`);
         }
-        localStorage.setItem('m_hst', JSON.stringify(hst));
-        renderLista();
-        document.getElementById('membroFoco').style.display = 'none';
+        localStorage.setItem('juatuba_hist_total', JSON.stringify(hTotal));
+        render(); selecionar();
     }
 
-    function gerarRelatorio() {
-        let t = `*RELATÓRIO JUATUBA*%0A`;
-        for(let n in hst) t += `[${hst[n]}] - ${n}%0A`;
-        window.open(`https://wa.me/?text=${t}`);
+    function atualizarDashboard() {
+        const cont = document.getElementById('dashLista');
+        cont.innerHTML = "";
+        let contagem = {};
+        hTotal.filter(h => h.status === 'FALTANTE').forEach(h => { contagem[h.nome] = (contagem[h.nome] || 0) + 1; });
+        const críticos = Object.entries(contagem).filter(([n, f]) => f >= 2).sort((a,b) => b[1] - a[1]);
+
+        if(críticos.length === 0) {
+            cont.innerHTML = "<p style='font-size:0.8rem; color:#94a3b8; text-align:center;'>Nenhuma ovelha com faltas recorrentes. ❤️</p>";
+            return;
+        }
+
+        críticos.forEach(([nome, faltas]) => {
+            const m = db.find(x => x.nome === nome);
+            const d = document.createElement('div');
+            d.className = 'dash-item';
+            d.innerHTML = `<div><span style="font-size:0.9rem; font-weight:700;">${icons[m?.org || 'Sociedade']} ${nome}</span></div><div style="display:flex; align-items:center; gap:10px;"><span class="alerta-faltas">${faltas} FALTAS</span><button style="border:none; background:#22c55e; color:white; padding:8px; border-radius:8px; cursor:pointer;" onclick="enviarNovamente('${nome}')">📱</button></div>`;
+            cont.appendChild(d);
+        });
+    }
+
+    function enviarNovamente(nome) {
+        const m = db.find(x => x.nome === nome);
+        const msg = msgsR[Math.floor(Math.random()*msgsR.length)];
+        window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent("Olá, " + m.nome + ". " + msg)}`);
+    }
+
+    function exportarCSV() {
+        let csv = "\uFEFFNome;Data;Status;Organizacao\n";
+        hTotal.forEach(h => { csv += `${h.nome};${h.data};${h.status};${h.org}\n`; });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+        link.download = `Ministracao_Juatuba.csv`;
+        link.click();
+    }
+
+    function desfazer() {
+        hTotal = hTotal.filter(h => !(h.nome === db[document.getElementById('lista').value].nome && h.data === document.getElementById('dataAtual').value));
+        localStorage.setItem('juatuba_hist_total', JSON.stringify(hTotal));
+        render(); selecionar();
     }
 </script>
 </body>
