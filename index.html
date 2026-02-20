@@ -53,7 +53,6 @@
         .btn-f { background: #fef2f2; color: #991b1b; grid-column: span 2; }
         .btn-undo { background: #f8fafc; color: #94a3b8; grid-column: span 2; font-size: 0.7rem; }
 
-        /* DASHBOARD ITEM */
         .dash-item { 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 12px; background: #fff; border-radius: 12px; margin-bottom: 8px;
@@ -127,16 +126,16 @@
     document.getElementById('dataAtual').value = new Date().toISOString().split('T')[0];
     const icons = { "Sociedade": "🌸", "Quórum": "👔", "ORM": "🎒", "Primária": "🧸" };
 
-    // MENSAGENS FUNDAMENTADAS (TERCEIRA PESSOA)
+    // MENSAGENS FUNDAMENTADAS NO "NÓS"
     const msgsR = [
-        "O Ramo Juatuba sentiu a falta de um membro especial hoje. Lembramos que em Mosias 18:21, o povo foi ensinado a ter 'seus corações entrelaçados em unidade e amor uns para com os outros'. A ausência foi notada porque cada ovelha é preciosa para o Bom Pastor. Que as bênçãos do céu acompanhem esta semana! ❤️",
-        "A presença de cada santo é o que fortalece nosso corpo. Em D&C 38:27, o Senhor diz: 'Sede um; e se não fordes um, não sois meus'. O Ramo sentiu que uma luz importante não estava conosco hoje. Saiba que existe muito amor e orações sendo oferecidos por cada um. Esperamos ver esse sorriso em breve! 🫂",
-        "Foi lembrado hoje que 'o valor das almas é grande à vista de Deus' (D&C 18:10). O Ramo Juatuba não se sente completo quando um de seus membros está ausente. Como ensinado na última Conferência, somos um povo de convênio que cuida uns dos outros. Que o conforto do Espírito esteja presente neste lar. ✨",
-        "O Ramo sentiu falta da companhia preciosa hoje. Paulo ensinou em 1 Coríntios 12 que todos os membros são necessários para que o corpo seja perfeito. Sem essa presença, nossa adoração foi incompleta. Que o amor do Salvador preencha o coração até o nosso próximo encontro! 🌟"
+        "Olá! Nós sentimos muito sua falta hoje. Lembramos que em Mosias 18:21, fomos ensinados a ter 'nossos corações entrelaçados em unidade'. Saiba que nós valorizamos sua presença e que sua ausência deixa um vazio em nosso círculo de amizade. Desejamos que as bênçãos do céu acompanhem sua semana! ❤️",
+        "Como você está? Nós sentimos que nossa reunião não foi a mesma sem você. Em D&C 38:27, o Senhor pede para sermos um, e nós realmente sentimos falta da sua parte nessa união. Saiba que nós nos importamos e que você está em nossas orações e pensamentos. Esperamos te ver em breve! 🫂",
+        "Nós sentimos sua falta hoje e lembramos que 'o valor das almas é grande à vista de Deus' (D&C 18:10). Nós reconhecemos a luz especial que você traz e nossa adoração parece incompleta sem sua companhia. Que o conforto do Espírito esteja com você e sua família nesta semana. ✨",
+        "Nós sentimos falta da sua companhia preciosa. Paulo ensinou em 1 Coríntios 12 que todos nós somos necessários para que o corpo de Cristo seja perfeito. Nós realmente sentimos que faltou uma parte importante hoje. Que o amor do Salvador te envolva até estarmos juntos novamente! 🌟"
     ];
 
     const msgsC = [
-        "O Ramo Juatuba alegrou-se com a presença hoje! Como diz o Salmo 122:1, 'Alegrei-me quando me disseram: Vamos à casa do Senhor'. Obrigado por compartilhar sua luz conosco e fortalecer nossos convênios. Uma semana abençoada! ❤️"
+        "Nós nos alegramos muito com sua presença hoje! Como diz o Salmo 122:1, nós ficamos felizes em ir juntos à casa do Senhor. Obrigado por fortalecer nossa fé com seu espírito. Uma semana abençoada! ❤️"
     ];
 
     if(db.length > 0) { document.getElementById('setup').style.display='none'; document.getElementById('app').style.display='block'; render(); }
@@ -194,7 +193,7 @@
         
         if(tp !== 'P_SIL') {
             let msg = (tp === 'MSG_P') ? msgsC[Math.floor(Math.random()*msgsC.length)] : msgsR[Math.floor(Math.random()*msgsR.length)];
-            window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent("Olá, " + m.nome + ". " + msg)}`);
+            window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent(msg)}`);
         }
         localStorage.setItem('juatuba_hist_total', JSON.stringify(hTotal));
         render(); selecionar();
@@ -224,7 +223,7 @@
     function enviarNovamente(nome) {
         const m = db.find(x => x.nome === nome);
         const msg = msgsR[Math.floor(Math.random()*msgsR.length)];
-        window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent("Olá, " + m.nome + ". " + msg)}`);
+        window.open(`https://wa.me/${m.tel}?text=${encodeURIComponent(msg)}`);
     }
 
     function exportarCSV() {
