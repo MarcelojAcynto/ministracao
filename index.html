@@ -118,20 +118,22 @@
     let hTotal = JSON.parse(localStorage.getItem('juatuba_hist_total')) || [];
     document.getElementById('dataAtual').value = new Date().toISOString().split('T')[0];
     
-    // Ícones para as listas e dashboard
     const icons = { "Sociedade": "🌸", "Quórum": "👔", "ORM": "🎒", "Primária": "🧸" };
 
     const gerarMsgResgate = (nome) => {
         const mensagens = [
-            `Olá, Irmão(ã) ${nome}! ✨%0A%0ANós sentimos muito sua falta hoje em nossa reunião de adoração.%0A%0AEm Mosias 18:21, o Senhor nos pede para termos nossos "corações entrelaçados em unidade e amor uns para com os outros". %0A%0ASaiba que nós valorizamos sua amizade e sua presença faz falta em nosso círculo de fé. Que as bênçãos do Salvador acompanhem seu lar nesta semana! ❤️`,
-            `Olá, Irmão(ã) ${nome}! 🕊️%0A%0AComo você está? Nós sentimos que nossa reunião não foi a mesma sem você hoje.%0A%0AEm Doutrina e Convênios 38:27, o Salvador nos ensina: "Sede um; e se não fordes um, não sois meus". Nós realmente prezamos por estarmos juntos com você. %0A%0ANós nos importamos muito e você está em nossos pensamentos e orações. Esperamos te ver em breve! 🫂`,
-            `Olá, Irmão(ã) ${nome}! 🌿%0A%0ANós sentimos sua falta hoje. Fomos lembrados em conferências recentes de que cada alma tem um valor infinito à vista de Deus (D&C 18:10). %0A%0ANós reconhecemos a luz que você traz ao nosso grupo e sentimos quando sua cadeira está vazia. %0A%0AQue o conforto do Espírito Santo esteja com você e sua família durante toda esta semana. 🌟`,
-            `Olá, Irmão(ã) ${nome}! 🐑%0A%0ANós pensamos muito em você hoje. O apóstolo Paulo ensinou em 1 Coríntios 12 que todos nós somos membros do corpo de Cristo e que cada um é necessário para que o corpo seja completo.%0A%0ANós sentimos que faltou uma parte importante de nossa família espiritual hoje. Saiba que nós estamos aqui para o que precisar. Receba nosso carinho! ❤️`
+            `Olá, Irmão(ã) ${nome}! ✨%0A%0ANós sentimos muito sua falta hoje. Ao olharmos para o lado, sentimos que faltava uma parte especial de nossa família. %0A%0AComo ensinou o Élder Uchtdorf: "Deus não nos olha com etiquetas, Ele nos olha com amor". Nós sentimos esse mesmo amor por você e queremos que saiba que sua presença é luz em nosso meio. %0A%0AQue o conforto do Salvador visite seu coração hoje! ❤️`,
+            
+            `Olá, nosso(a) querido(a) Irmão(ã) ${nome}! 🕊️%0A%0AComo você está? Pensamos muito em você hoje durante as reuniões. %0A%0AAlma ensinou em Morôni 6:4 que a Igreja se reunia frequentemente para "falar sobre o bem-estar de suas almas". Nós realmente nos preocupamos com o seu bem-estar e sentimos falta de ouvir sua voz e sentir seu espírito conosco. %0A%0ASaiba que nós estamos aqui para o que precisar. Receba nosso abraço sincero! 🫂`,
+            
+            `Olá, Irmão(ã) ${nome}! 🌿%0A%0ANós sentimos sua falta! Em nossas reuniões hoje, lembramos do convite de Cristo: "Vinde a mim". %0A%0ANós sabemos que a jornada da vida tem seus desafios, e queremos que saiba que você não precisa caminhar só. Como membros do corpo de Cristo (1 Coríntios 12), nós precisamos de você para estarmos completos. %0A%0AQue sua semana seja repleta da paz que só o Senhor pode dar. Estamos ansiosos para te ver! 🌟`,
+            
+            `Oi, Irmão(ã) ${nome}! ❤️%0A%0AEstou te escrevendo porque nós sentimos um vazio em nossa classe hoje sem você. %0A%0AO Presidente Nelson nos lembrou que "cada um de nós é precioso para Deus". Nós sentimos exatamente isso em relação a você. %0A%0ANossa oração é para que você sinta o calor do amor do Pai Celestial em cada pequeno detalhe do seu dia. Você faz muita falta! 🐑`
         ];
         return mensagens[Math.floor(Math.random() * mensagens.length)];
     };
 
-    const gerarMsgPresenca = (nome) => `Olá, Irmão(ã) ${nome}! ❤️%0A%0ANós ficamos muito felizes com sua presença hoje! %0A%0AComo diz o Salmista: "Alegrei-me quando me disseram: Vamos à casa do Senhor" (Salmos 122:1). Obrigado por fortalecer nossa fé com seu espírito. %0A%0AUma semana abençoada para você! 🙏`;
+    const gerarMsgPresenca = (nome) => `Olá, nosso(a) querido(a) Irmão(ã) ${nome}! ❤️%0A%0ANós ficamos tão felizes em ver você hoje! Sua presença traz uma paz especial para nossas reuniões. %0A%0AObrigado por compartilhar sua luz conosco, cumprindo o que o Salvador pediu: "Assim brilhe a vossa luz diante dos homens" (Mateus 5:16). %0A%0AUma semana maravilhosa e abençoada para você! 🙏`;
 
     function abrirSetup() { document.getElementById('setup').style.display='block'; document.getElementById('app').style.display='none'; }
     if(db.length > 0) { document.getElementById('setup').style.display='none'; document.getElementById('app').style.display='block'; render(); }
